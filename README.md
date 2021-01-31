@@ -1,3 +1,0 @@
-# Ecommerce Website
-
-using React
