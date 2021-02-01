@@ -30,11 +30,15 @@ function Register({history}) {
                 <div className="row">
                 <div className="col-md-6 offset-md-3">
                     <h1>Register To Join Us!</h1>
+                    <i style={{color:"#ff4646"}}>10% OFF on all products for new Users*</i>
+                    <br />
+                    <br />
                     <br />
                     <form onSubmit={handleSubmit}>
-                        <input placeholder="Enter your Email Id" autoFocus type="email" value={email} className="form-control m-3" onChange={(e) => setEmail(e.target.value)} />
+                        <input placeholder="Enter your Email Id" autoFocus type="email" value={email} className="form-control" onChange={(e) => setEmail(e.target.value)} />
                         <br />
-                        <button type="submit" className="float-right btn btn-primary btn-raised" >Register</button>
+                        <br />
+                        <button type="submit" className="float-right btn btn-dark btn-raised" >Register</button>
                     </form>
                 </div>
                 </div>

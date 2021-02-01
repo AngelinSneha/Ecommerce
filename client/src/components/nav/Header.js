@@ -4,7 +4,6 @@ import {Link, useHistory} from "react-router-dom"
 import { HomeOutlined, UserOutlined , UserAddOutlined, LogoutOutlined } from '@ant-design/icons';
 import firebase from "firebase/app";
 import { useDispatch, useSelector } from "react-redux";
-import "./header.css";
 
 const { SubMenu, Item } = Menu;
 
@@ -28,12 +27,12 @@ function Header() {
     
     
     return (
-        <Menu className="headerColor" onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+        <Menu theme="dark" className="p-1" onClick={handleClick} selectedKeys={[current]} mode="horizontal">
         <Item key="home" icon={<HomeOutlined />}>
             <Link to="/">Home</Link>
         </Item>
         {!user && (
-            <Item key="register" icon={<UserAddOutlined />} className="float-right">
+            <Item style={{}} key="register" icon={<UserAddOutlined />} className="float-right">
                 <Link to="/register">Register</Link>
             </Item>
         )}

@@ -19,4 +19,4 @@ const userSchema = new mongoose.Schema({
      address: String,
     //  wishlist:[type:ObjectId, ref:"Product"],
 },{timestamps:true});
-modules.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);

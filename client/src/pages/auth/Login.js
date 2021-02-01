@@ -6,10 +6,11 @@ import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import { useSelector } from "react-redux";
+import {createOrUpdateUser} from "../../functions/auth";
 
 function Login({history}) {
     const [email, setEmail] = useState('angelinsneha91@gmail.com');
-    const [password, setPassword] = useState('angu7223');
+    const [password, setPassword] = useState('Angu7223');
     const [loading, setLoading] = useState(false);
     const {user} = useSelector((state) => ({...state}))
     const dispatch = useDispatch();
@@ -27,13 +28,22 @@ function Login({history}) {
            console.log(result);
            const {user} = result;
            const idTokenResult = await user.getIdTokenResult();
-           dispatch({
-            type:'LOGGED_IN_USER',
-            payload: {
-               email:user.email,
-               token:idTokenResult.token
-            }
-          });
+           createOrUpdateUser(idTokenResult.token)
+           .then(
+               (res) => {
+                dispatch({
+                    type:'LOGGED_IN_USER',
+                    payload: {
+                        name:res.data.name,
+                       email:res.data.email,
+                       token:idTokenResult.token,
+                       role:res.data.role,
+                       _id: res.data._id
+                    }
+                  })
+               }
+           )
+           .catch();
           history.push("/");
         }
         catch(error) {
@@ -47,13 +57,22 @@ function Login({history}) {
         .then(async (result) => {
             const {user} = result
             const idTokenResult = await user.getIdTokenResult();
-            dispatch({
-                type:'LOGGED_IN_USER',
-                payload: {
-                   email:user.email,
-                   token:idTokenResult.token
-                }
-            });
+            createOrUpdateUser(idTokenResult.token)
+           .then(
+               (res) => {
+                dispatch({
+                    type:'LOGGED_IN_USER',
+                    payload: {
+                        name:res.data.name,
+                       email:res.data.email,
+                       token:idTokenResult.token,
+                       role:res.data.role,
+                       _id: res.data._id
+                    }
+                  })
+               }
+           )
+           .catch();
             history.push("/");
         })
         .catch((error) => {
@@ -67,7 +86,7 @@ function Login({history}) {
             <div className="container p-5">
                 <div className="row">
                 <div className="col-md-6 offset-md-3">
-                    {!loading ? (<h4>Login</h4>):(<h4 className="text-danger" >Loading...</h4>)}
+                    {!loading ? (<h2>Sign-In</h2>):(<h2 className="text-danger" >Loading...</h2>)}
                     <br />
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -77,10 +96,10 @@ function Login({history}) {
                         <input type="password" value={password} className="form-control m-3" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
                         </div>
                         <br />
-                        <Button onClick={handleSubmit} size="large" disabled={!email || password.length<6} icon={<MailOutlined />} type="primary" block shape='round' className="mb-3">Login with your Email/Password</Button>
+                        <Button onClick={handleSubmit} size="large" style={{backgroundColor:'#001529', color:"white"}} disabled={!email || password.length<6} icon={<MailOutlined />}  block shape='round' className="mb-3">Login with your Email/Password</Button>
                         
-                        <Button onClick={googleLogin} size="large" icon={<GoogleOutlined />} type="danger" block shape='round' className="mb-3">Login with Google</Button>
-                        <Link to="/forgot/password" className="float-right text-danger">Forgot password?</Link>
+                        <Button onClick={googleLogin} size="large"  icon={<GoogleOutlined />} type="danger" block shape='round' className="mb-3">Login with Google</Button>
+                        <Link to="/forgot/password" className="float-right" style={{color:'black'}}>Forgot password?</Link>
                     </form>
                 </div>
                 </div>
