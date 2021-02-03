@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import "antd/dist/antd.css"
 import {createStore} from "redux";
-import {Provider, provider} from "react-redux";
+import {Provider} from "react-redux";
 import {composeWithDevTools} from "redux-devtools-extension";
 import rootReducer from "./reducers";
 
