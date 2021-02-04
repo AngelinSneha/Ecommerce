@@ -2,35 +2,42 @@ import React, {useState, useEffect} from 'react'
 import AdminNav from "../../../components/nav/AdminNav";
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
-import { createCategory, getCategories, removeCategory } from "../../../functions/category";
+import {  getCategories} from "../../../functions/category";
+import { createSub, getSubs, removeSub } from "../../../functions/sub";
 import { EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import Categoryform from "../../../components/forms/Categoryform";
 import LocalSearch from '../../../components/forms/LocalSearch';
 
-function CategoryCreate() {
+function SubCreate() {
     const {user} = useSelector((state) => ({...state}))
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [subs, setSubs] = useState([]);
+    const [category, setCategory] = useState('');
     const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
         loadCategories();
+        loadSubs();
     }, [])
 
     const loadCategories = () =>
     getCategories().then((c) => setCategories(c.data));
 
+    const loadSubs = () =>
+    getSubs().then((s) => setSubs(s.data));
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        createCategory({name}, user.token)
+        createSub({name, parent:category}, user.token)
         .then(res => {
             setLoading(false);
             setName('');
             toast.success(`"${res.data.name}" is created.`)
-            loadCategories();
+            loadSubs();
         })
         .catch((err) => {
             console.log(err);
@@ -46,11 +53,11 @@ function CategoryCreate() {
         // console.log(answer, slug);
         if(window.confirm("Do you want to Delete this item?")) {
             setLoading(true);
-            removeCategory(slug, user.token)
+            removeSub(slug, user.token)
             .then(res => {
                 setLoading(false);
                 toast.success(`${res.data.name} deleted!`)
-                loadCategories();
+                loadSubs();
             })
             .catch(err => {
                 setLoading(false);
@@ -67,18 +74,25 @@ function CategoryCreate() {
         <div className="container-fluid">
             <div className="row">
                 <div>
-                <AdminNav name="category" />
+                <AdminNav name="sub" />
                 </div>
                 <div className="col">
-                <div className="container p-5"><h2  style={{color: '#1890ff'}}>Create a new Category</h2>
+                <div className="container p-5"><h2  style={{color: '#1890ff'}}>Create a new SubCategory</h2>
                 <br />
+                <div className="p-3">
+                <label><b>Category Name</b></label>
+                    <select onChange={(e) => setCategory(e.target.value)} style={{color:'#001529', width:'70%'}} class="form-control" aria-label="Category">
+                        <option>Select a Category</option>
+                        {categories.length>0 && categories.map((c) => (<option key={c._id} value={c._id}>{c.name}</option>))}
+                    </select>
+                    </div>
                 <Categoryform loading={loading} setName={setName} name={name}  handleSubmit={handleSubmit}  />
                 </div>
                 <hr />
                 <div className="container-fluid p-5">
-                <h2 style={{color: '#1890ff'}}>List of Categories</h2>
+                <h2 style={{color: '#1890ff'}}>List of SubCategories</h2>
                 <br />
-                <LocalSearch keyword={keyword} setKeyword={setKeyword} placeholder="Enter the category" />
+                <LocalSearch keyword={keyword} setKeyword={setKeyword} placeholder="Enter the Subcategory name" />
                 
                 <br />
                 <table className="table">
@@ -90,11 +104,11 @@ function CategoryCreate() {
                     </tr>
                     </thead>
                     <tbody>
-                    {categories.filter(searched(keyword)).map((c) => (
+                    {subs.filter(searched(keyword)).map((s) => (
                         <tr>
-                        <th scope="row" key={c._id}>{c.name}</th>
-                        <td><Link to={`/admin/category/${c.slug}`}><EditOutlined className="text-primary" /></Link></td>
-                        <td onClick={() => handleRemove(c.slug)}><DeleteOutlined className="text-danger" /></td>
+                        <th scope="row" key={s._id}>{s.name}</th>
+                        <td><Link to={`/admin/sub/${s.slug}`}><EditOutlined className="text-primary" /></Link></td>
+                        <td onClick={() => handleRemove(s.slug)}><DeleteOutlined className="text-danger" /></td>
                         </tr>
                     ))}
                     </tbody>
@@ -106,4 +120,5 @@ function CategoryCreate() {
     )
 }
 
-export default CategoryCreate
+export default SubCreate
+

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import AdminNav from "../../../components/nav/AdminNav";
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
-import { LoadingOutlined } from '@ant-design/icons';
 import { updateCategory, getCategory} from "../../../functions/category";
 import Categoryform from "../../../components/forms/Categoryform";
 
