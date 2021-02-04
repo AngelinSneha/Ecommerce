@@ -1,6 +1,6 @@
 /node_modules
 node_modules/
-server/config/fbServiceAccountKey.json
+/server/config/*
 /.pnp
 .pnp.js
 
