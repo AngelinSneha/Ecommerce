@@ -3,7 +3,7 @@ import AdminNav from "../../../components/nav/AdminNav";
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
 import {  getCategories} from "../../../functions/category";
-import { updateSub, getSubs, removeSub, getSub } from "../../../functions/sub";
+import { updateSub, getSub } from "../../../functions/sub";
 import Categoryform from "../../../components/forms/Categoryform";
 
 function SubCreate({match, history}) {
