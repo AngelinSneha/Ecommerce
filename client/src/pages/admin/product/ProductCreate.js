@@ -3,37 +3,71 @@ import AdminNav from "../../../components/nav/AdminNav";
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
 import { createProduct } from "../../../functions/product";
+import Productform from "../../../components/forms/Productform";
+import { getCategories, getCategorySubs } from "../../../functions/category";
 
-    const initialState = {
-        title:'',
-        description:'',
-        price:'',
-        category:'',
-        categories:[],
-        subs:[],
-        shipping:'',
-        quantity:'',
-        images:[],
-        colors: ['Green', 'Blue', 'Black', 'Brown', 'Red', 'white', 'purple', 'yellow'],
-        brands: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch'],
-        color:'',
-        brand:''
-    }
+
+const initialState = {
+    title:'',
+    description:'',
+    price:'',
+    category:'',
+    categories:[],
+    subs:[],
+    shipping:'',
+    quantity:'',
+    images:[],
+    colors: ['Green', 'Blue', 'Black', 'Brown', 'Red', 'white', 'purple', 'yellow'],
+    brands: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch'],
+    color:'',
+    brand:''
+}
 
 function ProductCreate() {
     const [values, setValues] = useState(initialState);
-    const {title, description, price, categories, category, subs, shipping, quantity, images, color, colors, brands, brand} = values;
-    
+    const [subOptions, setSubOptions] = useState([]);
+    const [showSub, setShowSub] = useState(false);
+    const {user} = useSelector((state) => ({...state}));
+
+    useEffect(() => {
+        loadCategories();
+    }, [])
+
+    const loadCategories = () =>
+    getCategories().then((c) => setValues({...values, categories: c.data}));
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        createProduct(values, user.token)
+        .then(res => {
+            console.log(res);
+            // toast.success(`"${res.data.title}" is created`);
+            window.alert(`"${res.data.title}" is created`)
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+            if(err.response.status === 400) {
+                toast.error(err.response.data);
+            }
+        })
     }
 
     const handleChange = (e) => {
-        // e.target.name
+        setValues({...values, [e.target.name]: e.target.value});
+        // console.log(e.target.name, "----------", e.target.value);
     }
     
-    
+    const handleCategoryChange = (e) => {
+        e.preventDefault();
+        console.log("CLICKED CATEGORY", e.target.value);
+        setValues({ ...values,subs:[], category: e.target.value });
+        getCategorySubs(e.target.value).then((res) => {
+        console.log("SUB OPTIONS ON CATGORY CLICK", res);
+        setSubOptions(res.data);
+        });
+        setShowSub(true);
+    }
     
     return (
         <div className="container-fluid">
@@ -46,47 +80,7 @@ function ProductCreate() {
                         <h2  style={{color: '#1890ff'}}>
                             Create a new Product
                         </h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                            <label><b>Title</b></label>
-                            <input type="text" name="title" style={{width:'70%'}} className="form-control" value={title} onChange={handleChange} />
-                            </div>
-                            <div className="form-group">
-                            <label><b>Description</b></label>
-                            <input type="text" name="description" style={{width:'70%'}} className="form-control" value={description} onChange={handleChange} />
-                            </div>
-                            <div className="form-group">
-                            <label><b>Price</b></label>
-                            <input type="text" name="price" style={{width:'70%'}} className="form-control" value={price} onChange={handleChange} />
-                            </div>
-                            <div className="form-group">
-                            <label><b>Shipping</b></label>
-                            <select name="shipping" style={{width:'70%'}} className="form-control" onChange={handleChange}>
-                                <option>Please Select a value</option>  
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                            </select>
-                            </div>
-                            <div className="form-group">
-                            <label><b>Quantity</b></label>
-                            <input type="text" name="quantity" style={{width:'70%'}} className="form-control" value={quantity} onChange={handleChange} />
-                            </div>
-                            <div className="form-group">
-                            <label>Color</label>
-                            <select name="color" style={{width:'70%'}} className="form-control" onChange={handleChange}>
-                                <option>Please Select a value</option>  
-                                {colors.map(c => <option key={c} value={c}>{c}</option>)}
-                            </select>
-                            </div>
-                            <div className="form-group">
-                            <label><b>Category</b></label>
-                            <select name="brand" style={{width:'70%'}} className="form-control" onChange={handleChange}>
-                                <option>Please Select a value</option>  
-                                {brands.map(b => <option key={b} value={b}>{b}</option>)}
-                            </select>
-                            </div>
-                            <button className="btn btn-dark btn-raised">Save</button>
-                        </form>
+                        <Productform setValues={setValues} subOptions={subOptions} showSub={showSub} values={values} handleCategoryChange={handleCategoryChange} handleChange={handleChange} handleSubmit={handleSubmit}/> 
                     </div>
                 </div>
             </div>

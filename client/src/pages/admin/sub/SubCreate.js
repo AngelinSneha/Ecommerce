@@ -80,12 +80,12 @@ function SubCreate() {
                 <div className="container p-5"><h2  style={{color: '#1890ff'}}>Create a new SubCategory</h2>
                 <br />
                 <div className="p-3">
-                <label><b>Category Name</b></label>
+                    <label><b>Category Name</b></label>
                     <select onChange={(e) => setCategory(e.target.value)} style={{color:'#001529', width:'70%'}} class="form-control" aria-label="Category">
                         <option>Select a Category</option>
                         {categories.length>0 && categories.map((c) => (<option key={c._id} value={c._id}>{c.name}</option>))}
                     </select>
-                    </div>
+                </div>
                 <Categoryform loading={loading} setName={setName} name={name}  handleSubmit={handleSubmit}  />
                 </div>
                 <hr />
