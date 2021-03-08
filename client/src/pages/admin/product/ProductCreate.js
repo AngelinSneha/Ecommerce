@@ -5,7 +5,8 @@ import {useSelector} from "react-redux";
 import { createProduct } from "../../../functions/product";
 import Productform from "../../../components/forms/Productform";
 import { getCategories, getCategorySubs } from "../../../functions/category";
-
+import Fileupload from '../../../components/forms/Fileupload'
+import {LoadingOutlined} from '@ant-design/icons';
 
 const initialState = {
     title:'',
@@ -27,6 +28,7 @@ function ProductCreate() {
     const [values, setValues] = useState(initialState);
     const [subOptions, setSubOptions] = useState([]);
     const [showSub, setShowSub] = useState(false);
+    const [loading, setLoading] = useState(false);
     const {user} = useSelector((state) => ({...state}));
 
     useEffect(() => {
@@ -80,6 +82,12 @@ function ProductCreate() {
                         <h2  style={{color: '#1890ff'}}>
                             Create a new Product
                         </h2>
+                        {JSON.stringify(values.images)}
+                        <div className="p-3">
+                            {loading? (<LoadingOutlined className="text-danger h1" />):(
+                                <Fileupload values={values} setValues={setValues} setLoading={setLoading} />)
+                            }
+                        </div>
                         <Productform setValues={setValues} subOptions={subOptions} showSub={showSub} values={values} handleCategoryChange={handleCategoryChange} handleChange={handleChange} handleSubmit={handleSubmit}/> 
                     </div>
                 </div>
