@@ -71,7 +71,7 @@ function CategoryCreate() {
                 </div>
                 <div className="col">
                 <div className="container p-5"><h2  style={{color: '#1890ff'}}>Create a new Category</h2>
-                <br />
+                <hr />
                 <Categoryform loading={loading} setName={setName} name={name}  handleSubmit={handleSubmit}  />
                 </div>
                 <hr />

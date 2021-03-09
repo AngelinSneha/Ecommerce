@@ -11,6 +11,7 @@ function Wishlist() {
                 <div className="col">
                     User wishlist Page
                 </div>
+                <hr />
             </div>
         </div>
     )

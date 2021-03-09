@@ -82,6 +82,7 @@ function ProductCreate() {
                         <h2  style={{color: '#1890ff'}}>
                             Create a new Product
                         </h2>
+                        <hr />
                         {/* {JSON.stringify(values.images)} */}
                         <div className="p-3">
                             {loading? (<LoadingOutlined className="text-danger h1" />):(

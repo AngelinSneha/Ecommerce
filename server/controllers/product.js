@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const slugify = require("slugify");
+const product = require('../models/product');
 
 exports.create = async (req, res) => {
     try {
@@ -25,4 +26,24 @@ exports.listAll = async (req, res) => {
     .sort([["createdAt", "desc"]])
     .exec();
     res.json(product);
+}
+exports.remove = async (req, res) => {
+    try {
+        const deleted =  await Product.findOneAndRemove({slug: req.params.slug}).exec();
+        res.json(deleted);
+    }
+    catch(err) {
+        console.log(err);
+        res.json({
+            err: err.message,
+        })
+        res.status(400).send('Product deletion failed');
+    }
+}
+exports.read = async (req, res) => {
+    let product = await Product.findOne({slug: req.params.slug})
+    .populate('category')
+    .populate('subs')
+    .exec();
+    res.json(product)
 }

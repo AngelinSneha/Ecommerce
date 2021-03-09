@@ -11,6 +11,7 @@ function History() {
                 <div className="col">
                     User History Page
                 </div>
+                <hr />
             </div>
         </div>
     )

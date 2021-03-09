@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import { Select } from 'antd';
 const { Option } = Select;
 
-function Productform({handleChange, handleSubmit, values, handleCategoryChange, setValues, subOptions, showSub}) {
+function ProductUpdateForm({handleChange, handleSubmit, values,setValues}) {
     const children = [];
     const {title, description, price, categories, category, subs, shipping, quantity, images, color, colors, brands, brand} = values;
     return (
@@ -22,7 +22,7 @@ function Productform({handleChange, handleSubmit, values, handleCategoryChange, 
                             </div>
                             <div className="form-group">
                             <label><b>Shipping</b></label>
-                            <select name="shipping" style={{width:'70%'}} className="form-control" onChange={handleChange}>
+                            <select value={shipping === "Yes"?"Yes":"No"} name="shipping" style={{width:'70%'}} className="form-control" onChange={handleChange}>
                                 <option>Please Select a value</option>  
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
@@ -34,45 +34,23 @@ function Productform({handleChange, handleSubmit, values, handleCategoryChange, 
                             </div>
                             <div className="form-group">
                             <label><b>Color</b></label>
-                            <select name="color" style={{width:'70%'}} className="form-control" onChange={handleChange}>
-                                <option>Please Select a value</option>  
+                            <select value={color} name="color" style={{width:'70%'}} className="form-control" onChange={handleChange}>
+                                {/* <option>Please Select a value</option>   */}
                                 {colors.map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
                             </div>
                             <div className="form-group">
                             <label><b>Brand</b></label>
-                            <select name="brand" style={{width:'70%'}} className="form-control" onChange={handleChange}>
-                                <option>Please Select a value</option>  
+                            <select value={brand} name="brand" style={{width:'70%'}} className="form-control" onChange={handleChange}>
+                                {/* <option>Please Select a value</option>   */}
                                 {brands.map(b => <option key={b} value={b}>{b}</option>)}
                             </select>
                             </div>
-                            <div>
-                            <label><b>Category</b></label>
-                            <select name="category" onChange={handleCategoryChange} style={{color:'#001529', width:'70%'}} className="form-control" aria-label="category">
-                                <option>Select a Category</option>
-                                {categories.length>0 && categories.map((c) => (<option key={c._id} value={c._id}>{c.name}</option>))}
-                            </select>
-                            </div>
-                            <br />
-                            {showSub && (<div className="form-group">
-                                <label><b>SubCategories</b></label>
-                                <br />
-                                <br />
-                                <Select
-                                    className="form-control"
-                                    mode="multiple"
-                                    allowClear
-                                    style={{ width: '70%' }}
-                                    placeholder="Please select"
-                                    value={subs}
-                                    onChange={value => setValues({...values,subs:value})}
-                                    >
-                                    {subOptions && subOptions.map((s) => (<Option key={s._id} value={s._id}>{s.name}</Option>))}
-                                </Select>
-                            </div>)}
+                            
+                            
                             <button className="btn btn-dark btn-raised">Save</button>
                         </form>
     )
 }
 
-export default Productform
+export default ProductUpdateForm

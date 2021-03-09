@@ -63,6 +63,7 @@ function Fileupload({setLoading, values, setValues}) {
     return (
         <>
         <div className="row">
+        <label><b>Select images for the Product</b></label>
             {values.images && values.images.map((image) => (
                 <Badge count="X" key={image.public_id} onClick={() => handleImageRemove(image.public_id)} style={{cursor:"pointer"}} >
                     <Avatar src={image.url} size={100} shape="square" className="ml-3" />

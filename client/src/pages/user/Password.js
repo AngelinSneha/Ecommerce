@@ -42,7 +42,7 @@ function Password() {
         <UserNav name="password" />
         </div>
             <div className="col">
-            <div className="p-4"><h2>Password Update</h2><i className="text-danger">Please enter a new Password.</i></div>
+            <div className="p-4"><h2>Password Update</h2><i className="text-danger">Please enter a new Password.</i><hr /></div>
                 {passwordUpdateForm()}
             </div>
         </div>

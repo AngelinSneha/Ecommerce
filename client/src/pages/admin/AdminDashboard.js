@@ -16,6 +16,7 @@ function AdminDashboard() {
                 <div className="col">
                 {loading? (<h2 className="text-danger"><LoadingOutlined /></h2>):(<h3 >Admin Dashboard Page</h3>)} 
                 </div>
+                <hr />
             </div>
         </div>
     )
