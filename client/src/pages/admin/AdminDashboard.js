@@ -1,7 +1,12 @@
-import React from 'react'
+import { LoadingOutlined } from '@ant-design/icons';
+import React, { useState} from 'react'
 import AdminNav from "../../components/nav/AdminNav";
 
 function AdminDashboard() {
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
+
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -9,7 +14,7 @@ function AdminDashboard() {
             <AdminNav name="dashboard"/>
             </div>
                 <div className="col">
-                    Admin Dashboard Page
+                {loading? (<h2 className="text-danger"><LoadingOutlined /></h2>):(<h3 >Admin Dashboard Page</h3>)} 
                 </div>
             </div>
         </div>
