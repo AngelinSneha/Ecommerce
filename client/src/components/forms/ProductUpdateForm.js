@@ -3,9 +3,9 @@ import 'antd/dist/antd.css';
 import { Select } from 'antd';
 const { Option } = Select;
 
-function ProductUpdateForm({handleChange, handleSubmit, values,setValues}) {
+function ProductUpdateForm({handleChange, selectedCategory, arrayOfSubIds, handleSubmit, setArrayOfSubIds, subOptions,categories, values,setValues, handleCategoryChange}) {
     const children = [];
-    const {title, description, price, categories, category, subs, shipping, quantity, images, color, colors, brands, brand} = values;
+    const {title, description, price, category, subs, shipping, quantity, images, color, colors, brands, brand} = values;
     return (
         <form onSubmit={handleSubmit}>
                             <div className="form-group">
@@ -46,8 +46,31 @@ function ProductUpdateForm({handleChange, handleSubmit, values,setValues}) {
                                 {brands.map(b => <option key={b} value={b}>{b}</option>)}
                             </select>
                             </div>
-                            
-                            
+                            <div>
+                            <label><b>Category</b></label>
+                            <select value={selectedCategory? selectedCategory:category._id} name="category" onChange={handleCategoryChange} style={{color:'#001529', width:'70%'}} className="form-control" aria-label="category">
+                                {/* <option>{category? (category.name):('Select a Category')}</option> */}
+                                {categories.length>0 && categories.map((c) => (<option key={c._id} value={c._id}>{c.name}</option>))}
+                            </select>
+                            </div>
+                            <br />
+                            <div className="form-group">
+                                <label><b>SubCategories</b></label>
+                                <br />
+                                <br />
+                                <Select
+                                    className="form-control"
+                                    mode="multiple"
+                                    allowClear
+                                    style={{ width: '70%' }}
+                                    placeholder="Please select"
+                                    value={arrayOfSubIds}
+                                    onChange={value => setArrayOfSubIds(value)}
+                                    >
+                                    {subOptions.length && subOptions.map((s) => (<Option key={s._id} value={s._id}>{s.name}</Option>))}
+                                </Select>
+                            </div>
+                            <br />
                             <button className="btn btn-dark btn-raised">Save</button>
                         </form>
     )
