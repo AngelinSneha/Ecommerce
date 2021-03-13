@@ -13,8 +13,8 @@ function ProductCard({product}) {
                 <img className="p-1" style={{height:"150px" ,objectFit:"cover"}} src={images && images.length? images[0].url : laptop} />
             }
             actions={[
-                <Link to={`/admin/product/${slug}`}><EyeTwoTone /><p>View Product</p></Link>,
-                <Link to={`/admin/product/${slug}`}><ShoppingCartOutlined className="text-success" /><p>Add to Cart</p></Link>
+                <Link to={`/product/${slug}`}><EyeTwoTone /><p>View Product</p></Link>,
+                <Link to={`/product/${slug}`}><ShoppingCartOutlined className="text-success" /><p>Add to Cart</p></Link>
             ]}
         >
            <Meta title={`${title}  -  ₹${price}`} description={`${description  && description.substring(0,40)}...`} />
