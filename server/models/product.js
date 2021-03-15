@@ -57,12 +57,12 @@ const productSchema = new mongoose.Schema({
         type: String,
         enum: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch']
     },
-    // ratings: [
-    //     {
-    //         type:Number,
-    //         postedBy: {type:ObjectId, ref:'User'}
-    //     }
-    // ]
+    ratings: [
+        {
+            star: Number,
+            postedBy: {type:ObjectId, ref:'User'}
+        }
+    ]
 },
 {timestamps:true}
 );
