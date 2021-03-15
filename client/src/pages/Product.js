@@ -3,16 +3,19 @@ import { getProduct } from "../functions/product";
 import { Breadcrumb } from 'antd';
 import SingleProduct from '../components/cards/SingleProduct';
 
-function Product({match}) {
-    const [product, setProduct] = useState({})
-    const {slug} = match.params;
+const  Product = ({match}) => {
+    const [product, setProduct] = useState({});
+    const { slug } = match.params;
 
     useEffect(() => {
         loadSingleProduct()
     }, [slug])
 
     const loadSingleProduct = () => {
-        getProduct(slug).then(res => setProduct(res.data)).catch(err => console.log('Single Product ERR ----', err))
+        getProduct(slug).then((res) => {
+            setProduct(res.data)
+            console.log(res.data)
+        }).catch(err => console.log("SINGLE PRODUCT ERR ----> ", err));    
     }
 
     return (
@@ -20,10 +23,10 @@ function Product({match}) {
         <Breadcrumb className="pt-4">
             <Breadcrumb.Item><a href="/">Home</a></Breadcrumb.Item>
             <Breadcrumb.Item>
-            <a href="">{product.title}</a>
+            <a href="">{product.category}</a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-            <a href="">{product.title}</a>
+            <a href="">{product.subs}</a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>{product.title}</Breadcrumb.Item>
         </Breadcrumb>
@@ -31,7 +34,11 @@ function Product({match}) {
                 <SingleProduct product={product} />
             </div>
             <div className="row">
-                <div>Related Products</div>
+                <div className="col text-center pt-5 pb-5">
+                <hr />
+                    <h4>Related Products</h4>
+                    <hr />
+                </div>
             </div>
         </div>
     )
