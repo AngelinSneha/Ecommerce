@@ -1,21 +1,3 @@
-// import React from 'react'
-// import {Link} from "react-router-dom"
-
-// function ProductListItems({product}) {
-//     const {price, category, subs,shipping, color, brand} = product
-//     return (
-//         <div>
-//             <ul className="list-group">
-//                 <li className="list-group-item">
-//                     Price{" "} <span className="label label-default label-pill pull-xs-right">₹ {price}</span>
-//                 </li>
-//             </ul>
-            
-//         </div>
-//     )
-// }
-
-// export default ProductListItems
 import React from "react";
 import { Link } from "react-router-dom";
 

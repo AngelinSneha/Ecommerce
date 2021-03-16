@@ -63,6 +63,7 @@ function App() {
     <Switch>
       <Route exact path="/login" component={Login} />
       <Route exact path="/forgot/password" component={ForgotPassword} />
+      <Route exact path="/register/complete" component={RegisterComplete} />
       <Route exact path="/register" component={Register} />
       <UserRoute exact path="/user/history" component={History} />
       <UserRoute exact path="/user/password" component={Password} />
@@ -76,7 +77,6 @@ function App() {
       <AdminRoute exact path="/admin/products" component={AllProducts} />
       <AdminRoute exact path="/admin/product/:slug" component={ProductUpdate} />
       <Route exact path="/product/:slug" component={Product} />
-      <Route exact path="/" component={Home} />
       <Route exact path="/" component={Home} />
     </Switch>
     </>

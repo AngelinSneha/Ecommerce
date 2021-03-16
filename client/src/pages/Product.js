@@ -1,71 +1,53 @@
-// import React, {useEffect, useState} from 'react'
-// import { getProduct } from "../functions/product";
-// import { Breadcrumb } from 'antd';
-// import SingleProduct from '../components/cards/SingleProduct';
-
-// const  Product = ({match}) => {
-//     const [product, setProduct] = useState({});
-//     const { slug } = match.params;
-
-//     useEffect(() => {
-//         loadSingleProduct()
-//     }, [slug])
-
-//     const loadSingleProduct = () => {
-//         getProduct(slug).then((res) => {
-//             setProduct(res.data)
-//             console.log(res.data)
-//         }).catch(err => console.log("SINGLE PRODUCT ERR ----> ", err));    
-//     }
-
-//     return (
-//         <div className="container-fluid">
-        // <Breadcrumb className="pt-4">
-        //     <Breadcrumb.Item><a href="/">Home</a></Breadcrumb.Item>
-        //     <Breadcrumb.Item>
-        //     <a href="">{product.category}</a>
-        //     </Breadcrumb.Item>
-        //     <Breadcrumb.Item>
-        //     <a href="">{product.subs}</a>
-        //     </Breadcrumb.Item>
-        //     <Breadcrumb.Item>{product.title}</Breadcrumb.Item>
-        // </Breadcrumb>
-//             <div className="row pt-4">
-//                 <SingleProduct product={product} />
-//             </div>
-//             <div className="row">
-//                 <div className="col text-center pt-5 pb-5">
-//                 <hr />
-//                     <h4>Related Products</h4>
-//                     <hr />
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Product
-
 import React, { useEffect, useState } from "react";
-import { getProduct } from "../functions/product";
+import { getProduct, productStar, getRelated } from "../functions/product";
 import SingleProduct from "../components/cards/SingleProduct";
+import BreadCrumbs from "../components/cards/BreadCrumbs";
+import {useSelector} from "react-redux";
+import ProductCard from "../components/cards/ProductCard";
+import LoadingCard from "../components/cards/LoadingCard";
 
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
+  const [star, setStar] = useState(0);
+  const [related, setRelated] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const { slug } = match.params;
+  const {user} = useSelector((state) => ({...state}));
 
   useEffect(() => {
     loadSingleProduct();
   }, [slug]);
 
+  useEffect(() => {
+    if (product.ratings && user) {
+      let existingRatingObject = product.ratings.find(
+        (ele) => ele.postedBy.toString() === user._id.toString()
+      );
+      existingRatingObject && setStar(existingRatingObject.star); // current user's star
+    }
+  });
+
   const loadSingleProduct = () =>
-    getProduct(slug).then((res) => setProduct(res.data));
+    getProduct(slug).then((res) => {
+      setProduct(res.data);
+      getRelated(res.data._id).then((res) => setRelated(res.data));
+    });
+
+    const onStarClick = (newRating, name) => {
+      setStar(newRating);
+      console.table(newRating, star);
+      productStar(name, newRating, user.token).then((res) => {
+        console.log("rating clicked", res.data);
+        loadSingleProduct(); // if you want to show updated rating in real time
+      }).catch((err) => console.log('error --->', err));
+    };
 
   return (
     <div className="container-fluid">
+    <BreadCrumbs product={product} />
       <div className="row pt-4">
-        <SingleProduct product={product} />
+        <SingleProduct product={product} star={star} onStarClick={onStarClick} />
       </div>
 
       <div className="row">
@@ -73,6 +55,14 @@ const Product = ({ match }) => {
           <hr />
           <h4>Related Products</h4>
           <hr />
+          {loading?(<LoadingCard count={3} />):(<div className="row">
+                    {related && related.length ? (related.map((product) => (
+                        <div key={product._id} className="col-md-4 mb-3">
+                            <ProductCard product={product} />
+                        </div>
+                    ))):(<h6 className="text-center text-danger col" >Sorry, No Related Products found!</h6>)}
+          </div>)}
+          {/* {JSON.stringify(related)} */}
         </div>
       </div>
     </div>
