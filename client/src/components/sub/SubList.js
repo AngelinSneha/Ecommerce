@@ -1,20 +1,20 @@
 import React, { useState, useEffect} from 'react'
 import { Link } from "react-router-dom";
 import {LoadingOutlined} from "@ant-design/icons"
-import { getCategories } from "../../functions/category";
+import { getSubs } from "../../functions/sub";
 // import Laptop from "../../images/Laptop.jpg";
 import { Card } from 'antd';
 
 const { Meta } = Card;
 
-function CategoryList() {
-    const [categories, setCategories] = useState([]);
+function SubList() {
+    const [subs, setSubs] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
-        getCategories().then((c) => {
-            setCategories(c.data)
+        getSubs().then((c) => {
+            setSubs(c.data)
             setLoading(false);
         }).catch((err) => {
             console.log("ERROR ---> ", err);
@@ -22,9 +22,9 @@ function CategoryList() {
         })
     }, []);
 
-    const showCategories = () => categories.map(c => (
+    const showSubs = () => subs.map(c => (
         <div class="col-md-2 mb-2">
-        <Link to={`/category/${c.slug}`}><Card
+        <Link to={`/sub/${c.slug}`}><Card
         key={c._id}
         hoverable
         className="p-1" 
@@ -39,12 +39,12 @@ function CategoryList() {
     ))
     return (
         <div className = "container">
-        <h4 className="text-center font-weight-bold p-4">SHOP BY CATEGORY</h4>
+        <h4 className="text-center font-weight-bold p-4">SHOP BY SUBCATEGORY</h4>
             <div className="row">
-                {loading?(<h4 className="text-center"><LoadingOutlined  /></h4>):(showCategories())}
+                {loading?(<h4 className="text-center"><LoadingOutlined  /></h4>):(showSubs())}
             </div>
         </div>
     )
 }
 
-export default CategoryList
+export default SubList

@@ -20,6 +20,7 @@ function SingleProduct({product, onStarClick, star}) {
             {images && images.length ? (<Carousel showArrows={true} autoPlay infiniteLoop>
             {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
             </Carousel>): (<Card
+            hoverable
             cover={
                 <img className="mb-3 card-image" src={laptop} />
             }

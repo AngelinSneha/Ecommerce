@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import {getCategory} from "../../functions/category"
+import {getSub} from "../../functions/sub"
 import ProductCard from "../../components/cards/ProductCard";
 import {LoadingOutlined} from "@ant-design/icons"
 
-function CategoryHome({ match }) {
-    const [category, setcategory] = useState({});
+function SubHome({ match }) {
+    const [sub, setSub] = useState({});
     const [products, setproducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -12,9 +12,9 @@ function CategoryHome({ match }) {
 
     useEffect(() => {
         setLoading(true)
-        getCategory(slug).then((res) => {
-            console.log(JSON.stringify(res.data.category, null, 4))
-            setcategory(res.data.category)
+        getSub(slug).then((res) => {
+            console.log(JSON.stringify(res.data, null, 4))
+            setSub(res.data.sub)
             setproducts(res.data.products)
             setLoading(false)
             
@@ -25,13 +25,14 @@ function CategoryHome({ match }) {
     }, [])
 
     return (
-        <div className="container">
+        <div className="container-fluid">
             <div className="row">
                 <div className="col">
                     {loading? (<h4 className="text-center font-weight-bold p-4"><LoadingOutlined /></h4>): (
-                        <h4 className="text-center font-weight-bold p-4">{products.length} products available in the category of "{category.name}"</h4>
+                        <h4 className="text-center font-weight-bold p-4">{products.length} products available in the Sub-category of "{sub.name}"</h4>
                     )}
                 </div>
+            </div>
                 <div className="row">
                     {products.map((p) => (
                     <div className="col" key={p._id}>
@@ -39,9 +40,8 @@ function CategoryHome({ match }) {
                     </div>
                     ))}
                 </div>
-            </div>
         </div>
     )
 }
 
-export default CategoryHome
+export default SubHome
