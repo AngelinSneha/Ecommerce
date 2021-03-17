@@ -1,5 +1,6 @@
 import  React, {useEffect, useState} from 'react'
 import Jumbotron from '../components/cards/Jumbotron';
+import CategoryList from '../components/category/CategoryList';
 import BestSellers from '../components/home/BestSellers';
 import NewArrivals from '../components/home/NewArrivals';
 
@@ -12,6 +13,7 @@ function Home() {
             </div>
             <NewArrivals />
             <BestSellers />
+            <CategoryList />
         </div>
     )
 }
