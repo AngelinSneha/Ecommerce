@@ -33,8 +33,10 @@ function NewArrivals() {
     
     return (
         <div>
-            <h4 className="text-center font-weight-bold p-4">NEW ARRIVALS</h4>
             <div className="container">
+            <h3 className="pt-4" style={{'color':'#001529', 'marginBottom':'4px'}}>New Arrivals</h3>
+            <i className='text-danger'>Explore all our latest collections</i>
+            <hr />
             {loading?(<LoadingCard count={3} />):(<div className="row">
                     {products.map((product) => (
                         <div key={product._id} className="col-md-4 mb-3">
@@ -44,7 +46,7 @@ function NewArrivals() {
                 </div>)}
             </div>
             <div className="row">
-                <nav className="col-md-4 offset-md-4 text-center p-3 pt-5">
+                <nav className="col-md-4 offset-md-4 text-center p-3">
                 <Pagination 
                     current={page} 
                     total={(productsCount/3)*10} 

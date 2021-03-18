@@ -10,7 +10,6 @@ function ProductCard({product}) {
     const {title, price, description, images, slug} = product
     return (
         <>
-        <div>{product && product.ratings && product.ratings.length > 0? (showAverage(product)):(<div className="text-center pt-1 pb-3">No rating yet</div>)}</div>
         <Link to={`/product/${slug}`}>
         <Card
         hoverable
@@ -23,6 +22,7 @@ function ProductCard({product}) {
             ]}
         >
            <Meta title={`${title}  -  ₹${price}`} description={`${description  && description.substring(0,40)}...`} />
+           <p>{product && product.ratings && product.ratings.length > 0? (showAverage(product)):(<div className="pt-2 pb-2 text-danger"><i>No rating yet!</i></div>)}</p>
         </Card>
         </Link>
         </>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
-import { Link } from "react-router-dom";
+import 'react-awesome-button/dist/themes/theme-blue.css';
+import {  AwesomeButton } from 'react-awesome-button';
 import {LoadingOutlined} from "@ant-design/icons"
 import { getSubs } from "../../functions/sub";
 // import Laptop from "../../images/Laptop.jpg";
@@ -23,23 +24,20 @@ function SubList() {
     }, []);
 
     const showSubs = () => subs.map(c => (
-        <div class="col-md-2 mb-2">
-        <Link to={`/sub/${c.slug}`}><Card
-        key={c._id}
-        hoverable
-        className="p-1" 
-        title={c.name}
-        style={{height:"150px" ,objectFit:"cover"}} 
-        // cover={<img src="../../images/Laptop.jpg" />}
-      >
-        <small className="mb-2"><i>Check out our lastest collection on  {c.name}...</i></small>
-      </Card>
-      </Link>
+        <div class=" col-xs-6 col-sm-4 col-md-2 mb-3">
+        <AwesomeButton
+      type="secondary"
+      style={{'color':'black'}}
+      href={`/sub/${c.slug}`}
+      className="aws-btn mb-3"
+    >
+      <i style={{'color':'#000'}}>{c.name}</i>
+    </AwesomeButton>
       </div>
     ))
     return (
         <div className = "container">
-        <h4 className="text-center font-weight-bold p-4">SHOP BY SUBCATEGORY</h4>
+        <h4 className="text-center p-5" style={{'color':'#001529}'}} >Shop By Sub - Category</h4>
             <div className="row">
                 {loading?(<h4 className="text-center"><LoadingOutlined  /></h4>):(showSubs())}
             </div>
