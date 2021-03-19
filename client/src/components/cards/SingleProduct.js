@@ -36,7 +36,7 @@ function SingleProduct({product, onStarClick, star}) {
             </div>
             <div className="col-md-5">
             <h1 className="">{title}</h1>
-             <div>{product && product.ratings && product.ratings.length > 0? (showAverage(product)):(<div className="text-center pt-1 pb-3">No rating yet</div>)}</div>       
+             <div>{product && product.ratings && product.ratings.length > 0? (<div className="text-center pb-3">{showAverage(product)}</div>):(<div className="text-center pt-1 pb-3">No rating yet</div>)}</div>       
             <Card
                 actions={[
                     <><ShoppingCartOutlined className="text-success" key="cart" />Add to Cart</>,

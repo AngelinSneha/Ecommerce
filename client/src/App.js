@@ -28,6 +28,7 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubHome from "./pages/sub/SubHome";
 import Footer from "./components/nav/Footer";
+import Shop from "./pages/Shop";
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
       <Route exact path="/product/:slug" component={Product} />
       <Route exact path="/category/:slug" component={CategoryHome} />
       <Route exact path="/sub/:slug" component={SubHome} />
+      <Route exact path="/shop" component={Shop} />
       <Route exact path="/" component={Home} />
     </Switch>
     <Footer />
