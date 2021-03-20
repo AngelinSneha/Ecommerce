@@ -238,8 +238,99 @@ const handleQuery = async (req, res, query) => {
   res.json(products);
 };
 
+const handleSub = async (req, res, subs) => {
+  try {
+    let products = await Product.find({
+      subs
+    })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+    res.json(products)
+  }
+  catch(err) {
+    console.log('Sub - Category controller', err);
+  }
+}
+
+const handleBrand = async (req, res, brand) => {
+  try {
+    let products = await Product.find({
+      brand
+    })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+    res.json(products)
+  }
+  catch(err) {
+    console.log('Brand controller', err);
+  }
+} 
+
+const handleColor = async (req, res, color) => {
+  try {
+    let products = await Product.find({
+      color
+    })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+    res.json(products)
+  }
+  catch(err) {
+    console.log('color controller', err);
+  }
+}
+
+const handleShipping = async (req, res, shipping) => {
+  try {
+    let products = await Product.find({
+      shipping
+    })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+    res.json(products)
+  }
+  catch(err) {
+    console.log('shipping controller', err);
+  }
+}
+
+const handleStar = async (req, res, stars) => {
+  Product.aggregate([
+    {
+      $project: {
+        document: "$$ROOT",
+        floorAverage: {
+          $floor: {$avg: "$ratings.star"}
+        }
+      }
+    },
+    {
+      $match: { floorAverage:stars }
+    }
+  ]).exec((err, aggregates) => {
+    if (err)  console.log('AGGREGATE ERR', err);
+    Product.find({ _id: aggregates})
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec((err, products) => {
+      if (err)  console.log('PRODUCT AGGREGATE ERR', err);
+      res.json(products)
+    });
+
+  })
+}
+
 exports.searchFilters = async (req, res) => {
-  const { query, price, category } = req.body;
+  const { query, price, category, stars, subs, brand, color, shipping } = req.body;
 
   if (query) {
     console.log("query ---->", query);
@@ -252,5 +343,25 @@ exports.searchFilters = async (req, res) => {
   if(category !== undefined) {
     console.log('category ---->', category);
     await handleCategory(req, res, category)
+  }
+  if(stars !== undefined) {
+    console.log('stars ---->', stars);
+    await handleStar(req, res, stars)
+  }
+  if(subs !== undefined) {
+    console.log('stars ---->', subs);
+    await handleSub(req, res, subs)
+  }
+  if(brand !== undefined) {
+    console.log('brand ---->', brand);
+    await handleBrand(req, res, brand)
+  }
+  if(color !== undefined) {
+    console.log('color ---->', color);
+    await handleColor(req, res, color)
+  }
+  if(shipping !== undefined) {
+    console.log('shipping ---->', shipping);
+    await handleShipping(req, res, shipping)
   }
 };
