@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card, Tabs } from "antd";
+import React, {useState} from 'react'
+import { Card, Tabs, Tooltip } from "antd";
 import { ShoppingCartOutlined, HeartTwoTone } from '@ant-design/icons';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
@@ -8,11 +8,39 @@ import ProductListItems from './ProductListItems';
 import StarRating from 'react-star-ratings';
 import RatingModal from '../modal/RatingModal';
 import { showAverage } from "../../functions/rating";
+import _ from "lodash";
+import { useDispatch, useSelector} from "react-redux";
 
 const {TabPane} = Tabs;
 
 function SingleProduct({product, onStarClick, star}) {
     const {title,description, images, _id} = product;
+    const [tooltip, settooltip] = useState('Click to Add to Cart');
+    const {user, cart} = useSelector(state => ({...state}) );
+    const dispatch = useDispatch();
+    const handleAddToCart = () => {
+        let cart = [];
+        if(typeof window !== 'undefined') {
+            if(localStorage.getItem('cart')) {
+                cart = JSON.parse(localStorage.getItem('cart'))
+            }
+
+            cart.push({
+                ...product,
+                count:1
+            });
+
+            let unique = _.uniqWith(cart, _.isEqual)
+            console.log('unique', unique);
+            localStorage.setItem("cart", JSON.stringify(unique));
+            settooltip('Added to cart');
+
+            dispatch({
+                type: "ADD_TO_CART",
+                payload: unique
+            })
+        }
+    }
     
     return (
         <>
@@ -39,7 +67,7 @@ function SingleProduct({product, onStarClick, star}) {
              <div>{product && product.ratings && product.ratings.length > 0? (<div className="text-center pb-3">{showAverage(product)}</div>):(<div className="text-center pt-1 pb-3">No rating yet</div>)}</div>       
             <Card
                 actions={[
-                    <><ShoppingCartOutlined className="text-success" key="cart" />Add to Cart</>,
+                    <Tooltip title={tooltip}><a onClick={handleAddToCart}><ShoppingCartOutlined className="text-success" /><p>Add to Cart</p></a></Tooltip>,
                     <><HeartTwoTone  twoToneColor="#eb2f96" key="heart" />Add to Wishlist</>,
                     <RatingModal>
                         <StarRating

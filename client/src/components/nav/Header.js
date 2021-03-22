@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import {Menu} from 'antd';
+import {Menu, Badge} from 'antd';
 import {Link, useHistory} from "react-router-dom"
-import { HomeOutlined, UserOutlined, ShoppingOutlined, UserAddOutlined, LogoutOutlined } from '@ant-design/icons';
+import { HomeOutlined, ShoppingCartOutlined, UserOutlined, ShoppingOutlined, UserAddOutlined, LogoutOutlined } from '@ant-design/icons';
 import firebase from "firebase/app";
 import { useDispatch, useSelector } from "react-redux";
 import Search from '../forms/Search';
@@ -11,7 +11,7 @@ const { SubMenu, Item } = Menu;
 function Header() {
     const [current, setCurrent] = useState('home');
     const dispatch = useDispatch();
-    const {user} = useSelector((state) => ({...state}))
+    const {user, cart} = useSelector((state) => ({...state}))
     const history = useHistory();
     const handleClick = (e) => {
         // console.log(e.key);
@@ -34,6 +34,9 @@ function Header() {
         </Item>
         <Item key="shop" icon={<ShoppingOutlined />}>
             <Link to="/shop">Shop</Link>
+        </Item>
+        <Item key="cart" icon={<ShoppingCartOutlined />}>
+        <Link to="/cart"><Badge offset={[11,0]} count={cart.length}><span style={{'color':'rgba(255, 255, 255, 0.65)'}}>Cart</span></Badge></Link>
         </Item>
         {!user && (
             <Item key="register" icon={<UserAddOutlined />} className="float-right">
