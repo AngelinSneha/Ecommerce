@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import {useSelector, useDispatch} from 'react-redux';
 import laptop from "../images/laptop.jpg";
 import { Link } from "react-router-dom";
+import {toast} from 'react-toastify';
 import ModalImage from "react-modal-image";
+import { userCart } from "../functions/user"
+import {CloseCircleOutlined, DeleteOutlined, CheckCircleOutlined } from "@ant-design/icons"
 
-function Cart() {
+function Cart({ history }) {
     const [colors, setcolors] = useState(['Green', 'Blue', 'Black', 'Brown', 'Red', 'white', 'purple', 'yellow'])
     const {user, cart} = useSelector(state => ({...state}));
     const dispatch = useDispatch();
@@ -14,23 +17,44 @@ function Cart() {
             return cur+next.count * next.price
         }, 0)
     }
-
-    // const handleColorChange = (e) => {
-    //     let cart = [];
-    //     if(typeof window !== 'undefined') {
-    //         if(localStorage.getItem('cart')) {
-    //             cart = JSON.parse(localStorage.getItem('cart'));
-    //         }
-    //         cart.map((product, i) => {
-    //             if(p._id) {
-
-    //             }
-    //         })
-    //     }
-    // }
-
     const saveOrderToDb = () => {
+        // alert("Save order to DB");
+        // console.log('Cart', JSON.stringify(cart, null, 4));
+        userCart(cart, user.token)
+        .then((res) => {
+            console.log('cart post res --> ', res);
+            if(res.data.ok) {
+                history.push("/checkout")
+            }
+        })
+        .catch((err) => console.log('cart post res --> ',err))
+    }
 
+    // const handleQuantityChange = (e) => {
+    //     console.log('value ',e.target.value);
+        
+    // }
+    
+    const handleRemove = (id) => {
+        console.log("delete ---", id);
+        let cart=[]
+        if(typeof window !== 'undefined') {
+            if(localStorage.getItem('cart')) {
+                cart = JSON.parse(localStorage.getItem('cart'));
+            }
+            cart.map((product, i) => {
+                if(product._id === id) {
+                    cart.splice(i, 1)
+                }
+            })
+            console.log("Cart remove", cart);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            dispatch({
+                type:"ADD_TO_CART",
+                payload: cart,
+
+            })
+        }
     }
 
     return (
@@ -59,8 +83,8 @@ function Cart() {
                     </thead>
                     <tbody>
                     {cart.map((c, i) => (
-                        <tr>
-                        <td key={i}>
+                        <tr key={i}>
+                        <td>
                             <div style={{'width':'100px', "height": "auto"}}>
                                 {c.images.length? (<ModalImage hideDownload={true} showRotate={true} large={c.images[0].url} small={c.images[0].url} />):(<ModalImage showRotate={true} hideDownload={true} large={laptop} small={laptop} />)}
                             </div>
@@ -85,6 +109,7 @@ function Cart() {
                                     dispatch({
                                         type:"ADD_TO_CART",
                                         payload: cart,
+
                                     })
                                 }
                             }}>
@@ -92,11 +117,42 @@ function Cart() {
                                 {colors.filter((p) => p !== c.color).map((p) => <option value={p} key={p} >{p}</option>)}
                             </select>
                         </td>
-                        <td>{c.count}</td>
-                        <td>{c.shipping}</td>
-                        <td>X</td>
-                        {/* <td><Link to={`/admin/category/${c.slug}`}></Link></td>
-                        <td ></td> */}
+                        <td className="text-center">
+                            <input type="number" className="form-control" value={c.count} onChange={(e) => {
+                                console.log('available quantity', c.quantity)
+                                let count = e.target.value<1 ? (1):(e.target.value)
+                                if(count > c.quantity) {
+                                    toast.error(`Sorry, We have only a quantity of "${c.quantity}" available right now!`)
+                                    return;
+                                }
+                                let cart=[]
+                                if(typeof window !== 'undefined') {
+                                    if(localStorage.getItem('cart')) {
+                                        cart = JSON.parse(localStorage.getItem('cart'));
+                                    }
+                                    cart.map((product, i) => {
+                                        if(product._id === c._id) {
+                                            cart[i].count = count
+                                        }
+                                    })
+                                    console.log("Cart updated count", cart);
+                                    localStorage.setItem('cart', JSON.stringify(cart));
+                                    dispatch({
+                                        type:"ADD_TO_CART",
+                                        payload: cart,
+
+                                    })
+                                }
+                            }} />
+                        </td>
+                        <td>{(c.shipping === 'Yes') ? (
+                                <div className="text-center text-success"><CheckCircleOutlined  /></div>
+                            ) :(
+                                <div className="text-center text-danger"><CloseCircleOutlined  /></div>
+
+                            )
+                            }</td>
+                        <td className="text-center text-danger pointer"><DeleteOutlined onClick={() => handleRemove(c._id)} /></td>
                         </tr>
                     ))}
                     </tbody>
@@ -115,17 +171,17 @@ function Cart() {
                                 <tbody>
                                      {cart.map((c, i) => (
                             
-                                    <tr>
-                                        <td key={i}>
+                                    <tr key={i}>
+                                        <td>
                                         {c.title}
                                         </td> 
-                                        <td key={i}>
+                                        <td>
                                         x
                                         </td>
-                                        <td key={i}>
+                                        <td>
                                         {c.count}
                                         </td>
-                                        <td key={i}>
+                                        <td>
                                         ₹ {c.price * c.count}
                                         </td>
                                     </tr>
@@ -141,7 +197,9 @@ function Cart() {
                             </table>
                     <hr />
                     {user? (
-                        <button disabled={!cart.length} onClick={saveOrderToDb} className="mb-4 btn btn-danger btn-raised btn-sm mt-2">Proceed to Checkout</button>
+                        <button disabled={!cart.length} onClick={saveOrderToDb} className="mb-4 btn btn-danger btn-raised btn-sm mt-2">
+                            <Link style={{'color':'white'}} to="/checkout">Proceed to Checkout</Link>
+                        </button>
                     ):(
                         <button className="btn btn-danger btn-sm mt-2 mb-4">
                             <Link to={{

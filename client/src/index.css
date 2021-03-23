@@ -66,3 +66,7 @@ code {
     --button-anchor-color-hover: #89cf35;
     --button-anchor-border: 2px solid #5bbd3a;
     }
+    
+    .pointer {
+      cursor: pointer;
+    }

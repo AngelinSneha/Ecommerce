@@ -30,6 +30,8 @@ import SubHome from "./pages/sub/SubHome";
 import Footer from "./components/nav/Footer";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import SideDrawer from "./components/drawer/SideDrawer";
+import Checkout from "./pages/Checkout";
 
 
 function App() {
@@ -64,6 +66,7 @@ function App() {
   return (
     <>
     <Header />
+    <SideDrawer />
     <ToastContainer />
     <Switch>
       <Route exact path="/login" component={Login} />
@@ -86,6 +89,7 @@ function App() {
       <Route exact path="/sub/:slug" component={SubHome} />
       <Route exact path="/shop" component={Shop} />
       <Route exact path="/cart" component={Cart} />
+      <Route exact path="/checkout" component={Checkout} />
       <Route exact path="/" component={Home} />
     </Switch>
     <Footer />
