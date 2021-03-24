@@ -18,17 +18,14 @@ function Cart({ history }) {
         }, 0)
     }
     const saveOrderToDb = () => {
-        // alert("Save order to DB");
-        // console.log('Cart', JSON.stringify(cart, null, 4));
-        userCart(cart, user.token)
-        .then((res) => {
-            console.log('cart post res --> ', res);
-            if(res.data.ok) {
-                history.push("/checkout")
-            }
-        })
-        .catch((err) => console.log('cart post res --> ',err))
-    }
+            // console.log("cart", JSON.stringify(cart, null, 4));
+            userCart(cart, user.token)
+              .then((res) => {
+                console.log("CART POST RES", res);
+                if (res.data.ok) history.push("/checkout");
+              })
+              .catch((err) => console.log("cart save err", err));
+    };
 
     // const handleQuantityChange = (e) => {
     //     console.log('value ',e.target.value);

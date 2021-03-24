@@ -1,9 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux';
+import {getUserCart} from "../functions/user"
 
 function Checkout() {
+    const [products, setproducts] = useState([]);
+    const [total, settotal] = useState(0)
     const {user, cart} = useSelector(state => ({...state}));
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        getUseCart(user.token).then((res) => 
+            console.log()
+        )
+        return () => {
+            cleanup
+        }
+    }, [input])
 
     const getTotal = () => {
         return cart.reduce((cur, next) => {
