@@ -88,10 +88,9 @@ function SubCreate() {
                 </div>
                 <Categoryform loading={loading} setName={setName} name={name}  handleSubmit={handleSubmit}  />
                 </div>
-                <hr />
-                <div className="container-fluid p-5">
+                <div className="container-fluid pr-5 pl-5 pb-5 pt-0">
                 <h2 style={{color: '#1890ff'}}>List of SubCategories</h2>
-                <br />
+                <hr />
                 <LocalSearch keyword={keyword} setKeyword={setKeyword} placeholder="Enter the Subcategory name" />
                 
                 <br />

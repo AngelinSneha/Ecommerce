@@ -74,10 +74,9 @@ function CategoryCreate() {
                 <hr />
                 <Categoryform loading={loading} setName={setName} name={name}  handleSubmit={handleSubmit}  />
                 </div>
+                <div className="container-fluid pr-5 pl-5 pb-5 pt-0">
+                <h2 style={{color: '#1890ff'}}>List of Categories</h2>               
                 <hr />
-                <div className="container-fluid p-5">
-                <h2 style={{color: '#1890ff'}}>List of Categories</h2>
-                <br />
                 <LocalSearch keyword={keyword} setKeyword={setKeyword} placeholder="Enter the category" />
                 
                 <br />

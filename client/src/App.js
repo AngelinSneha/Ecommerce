@@ -32,6 +32,8 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import SideDrawer from "./components/drawer/SideDrawer";
 import Checkout from "./pages/Checkout";
+import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
+import Payment from "./pages/Payment";
 
 
 function App() {
@@ -81,6 +83,7 @@ function App() {
       <AdminRoute exact path="/admin/category/:slug" component={CategoryUpdate} />
       <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
       <AdminRoute exact path="/admin/sub" component={SubCreate} />
+      <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
       <AdminRoute exact path="/admin/product" component={ProductCreate} />
       <AdminRoute exact path="/admin/products" component={AllProducts} />
       <AdminRoute exact path="/admin/product/:slug" component={ProductUpdate} />
@@ -89,7 +92,8 @@ function App() {
       <Route exact path="/sub/:slug" component={SubHome} />
       <Route exact path="/shop" component={Shop} />
       <Route exact path="/cart" component={Cart} />
-      <Route exact path="/checkout" component={Checkout} />
+      <UserRoute exact path="/checkout" component={Checkout} />
+      <UserRoute exact path="/payment" component={Payment} />
       <Route exact path="/" component={Home} />
     </Switch>
     <Footer />

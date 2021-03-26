@@ -14,14 +14,14 @@ export const removeSub = async (slug, authtoken) =>
   });
 
 export const updateSub = async (slug, sub, authtoken) =>
-  await axios.put(`${process.env.REACT_APP_API}/sub/${slug}`, sub, {
+  await axios.put(`${process.env.REACT_APP_API}/sub/${slug}`, {sub}, {
     headers: {
       authtoken,
     },
   });
 
 export const createSub = async (sub, authtoken) =>
-  await axios.post(`${process.env.REACT_APP_API}/sub`, sub, {
+  await axios.post(`${process.env.REACT_APP_API}/sub`, {sub}, {
     headers: {
       authtoken,
     },
