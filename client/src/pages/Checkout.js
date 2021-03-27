@@ -144,8 +144,8 @@ const Checkout = ({history}) => {
                     { totAfterDiscount>0?
                       (<>
                       <br />
-                      <i className="text-danger h6 pl-2" >Hurray, Discount Applied!</i>
-                      <p className="text-danger pl-2" ><i>Promo - ({coupon})</i></p>
+                      <i className="text-success h6 pl-2" >Hurray, Discount Applied!</i>
+                      <p className="text-success pl-2" ><i>Promo - ({coupon})</i></p>
                         <tr className="h5">
                         <th>Grand Total</th>
                         <td></td>
