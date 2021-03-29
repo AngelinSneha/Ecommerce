@@ -24,7 +24,7 @@ function SubList() {
     }, []);
 
     const showSubs = () => subs.map(c => (
-        <div class=" col-xs-6 col-sm-4 col-md-2 mb-3">
+        <div key={c._id} className=" col-xs-6 col-sm-4 col-md-2 mb-3">
         <AwesomeButton
       type="secondary"
       style={{'color':'black'}}

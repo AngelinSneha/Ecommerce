@@ -53,7 +53,7 @@ function ProductCard({product}) {
             }
             actions={[
                 <Link to={`/product/${slug}`}><EyeTwoTone /><p>View Product</p></Link>,
-                <Tooltip title={tooltip}><a onClick={handleAddToCart}><ShoppingCartOutlined className="text-success" /><p>Add to Cart</p></a></Tooltip>
+                <Tooltip title={tooltip}><a disabled={product.quantity < 1} onClick={handleAddToCart}><ShoppingCartOutlined className="text-success" /><p>{product.quantity < 1? "Out of Stock":"Add to Cart"}</p></a></Tooltip>
             ]}
         >
            <Meta title={`${title}  -  ₹${price}`} description={`${description  && description.substring(0,40)}...`} />

@@ -4,9 +4,7 @@ import { getCategories } from "../../functions/category";
 import 'react-awesome-button/dist/themes/theme-blue.css';
 import {  AwesomeButton } from 'react-awesome-button';
 // import Laptop from "../../images/Laptop.jpg";
-import { Card } from 'antd';
 
-const { Meta } = Card;
 
 function CategoryList() {
     const [categories, setCategories] = useState([]);
@@ -24,18 +22,7 @@ function CategoryList() {
     }, []);
 
     const showCategories = () => categories.map(c => (
-        <div class=" col-xs-6 col-sm-4 col-md-2 mb-3">
-        {/* <Link to={`/category/${c.slug}`}><Card
-        key={c._id}
-        hoverable
-        className="p-1" 
-        title={c.name}
-        style={{height:"150px" ,objectFit:"cover"}} 
-        // cover={<img src="../../images/Laptop.jpg" />}
-      >
-        <small className="mb-2"><i>Check out our lastest collection on  {c.name}...</i></small>
-      </Card>
-      </Link> */}
+        <div key={c._id} className="col-xs-6 col-sm-4 col-md-2 mb-3">
       <AwesomeButton
       type="secondary"
       style={{'color':'black'}}

@@ -6,6 +6,7 @@ import { createPaymentIntent } from "../functions/stripe";
 import { Card } from "antd";
 import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
 import Laptop from "../images/laptop.jpg";
+import { createOrder, emptyCart } from "../functions/user" 
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,22 @@ const StripeCheckout = ({ history }) => {
         setError(`Payment Failed ${payload.error.message}`);
         setProcessing(false);
     } else {
+      createOrder(payload, user.token).then((res) =>{
+        if(res.data.ok) {
+          if(typeof window !== "undefined") {
+            localStorage.removeItem('cart')
+          }
+        }
+        dispatch({
+          type: "ADD_TO_CART",
+          payload: []
+        })
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: false
+        });
+        emptyCart(user.token);
+      })
         console.log(JSON.stringify(payload, null, 4));
         setError(null);
         setProcessing(false);
@@ -84,6 +101,7 @@ const StripeCheckout = ({ history }) => {
 
   return (
     <>
+    <h1 style={{color:"white"}} className={succeeded? 'result-message jumbotron bg-success':'result-message hidden'}>Thank You, for Shopping with Us. <p>Have a nice day!🙂</p><Link style={{color:"white"}} to="/shop"><u>Click here to Continue Shopping</u></Link></h1>
     {!succeeded && (
         <div>
           {coupon && totalAfterDiscount !== undefined ? (
@@ -127,7 +145,7 @@ const StripeCheckout = ({ history }) => {
         <br />
         <p className={succeeded? 'result-message text-success':'result-message hidden'}>Payment Successful. <Link to="/user/history">See it in your purchase history.</Link> </p>
       </form>
-    </>
+      </>
   );
 };
 
