@@ -3,7 +3,7 @@ import { Collapse, Space } from 'antd';
 
 const { Panel } = Collapse;
 
-function ShowPaymentInfo({order}) {
+function ShowPaymentInfo({order, showStatus, collapseValue}) {
     return (
         <div>
             <Space direction="vertical">
@@ -34,10 +34,35 @@ function ShowPaymentInfo({order}) {
                     </tr>
                 </tbody>
                 </table>
-                <h4 className="badge">STATUS: {order.orderStatus}</h4>{" "}
+                {showStatus && (<h4 className="badge">STATUS: {order.orderStatus}</h4>)}
                 </Panel>
                 </Collapse>
             </Space>
+                {/* <table className="table" >
+                <thead className="thead-dark">
+                    <tr>
+                    <th scope="col">Order id</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Method</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Ordered on</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr key={order.paymentIntent.id}>
+                    <td>{order.paymentIntent.id}</td>
+                    <td>{order.paymentIntent.currency.toUpperCase()}</td>
+                    <td>{(order.paymentIntent.amount /= 100).toLocaleString("en-IN", {
+                        style: "currency",
+                        currency: "INR"
+                    })}</td>
+                    <td>{order.paymentIntent.payment_method_types[0]}</td>
+                    <td>{order.paymentIntent.status.toUpperCase()}</td>
+                    <td>{new Date(order.paymentIntent.created * 1000).toLocaleString()}</td>
+                    </tr>
+                </tbody>
+                </table> */}
         </div>
     )
 }

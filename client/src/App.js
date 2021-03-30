@@ -27,14 +27,15 @@ import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubHome from "./pages/sub/SubHome";
-import Footer from "./components/nav/Footer";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import SideDrawer from "./components/drawer/SideDrawer";
 import Checkout from "./pages/Checkout";
 import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
 import Payment from "./pages/Payment";
-
+import { BackTop } from 'antd';
+import { UpOutlined } from "@ant-design/icons";
+import FooterNav from "./components/nav/FooterNav";
 
 function App() {
    const dispatch = useDispatch();
@@ -96,7 +97,12 @@ function App() {
       <UserRoute exact path="/payment" component={Payment} />
       <Route exact path="/" component={Home} />
     </Switch>
-    <Footer />
+    <BackTop >
+    <div style={{backgroundColor:"#001529", borderRadius:"2px"}} className=" text-center pt-2 pb-2">
+      <UpOutlined style={{color:"white"}} />
+    </div>
+    </BackTop>
+    <FooterNav />
     </>
   );
 }

@@ -10,6 +10,8 @@ import RatingModal from '../modal/RatingModal';
 import { showAverage } from "../../functions/rating";
 import _ from "lodash";
 import { useDispatch, useSelector} from "react-redux";
+import { addToWishlist } from "../../functions/user";
+import { toast } from 'react-toastify';
 
 const {TabPane} = Tabs;
 
@@ -45,6 +47,14 @@ function SingleProduct({product, onStarClick, star}) {
             })
         }
     }
+
+    const handleAddToWishlist = (e) => {
+        e.preventDefault();
+        addToWishlist(product._id, user.token).then((res) => {
+            console.log('ADDED TO WISHLIST', res.data);
+            toast.success('Added to Wishlist')
+        })
+    }
     
     return (
         <>
@@ -72,7 +82,7 @@ function SingleProduct({product, onStarClick, star}) {
             <Card
                 actions={[
                     <Tooltip title={tooltip}><a onClick={handleAddToCart}><ShoppingCartOutlined className="text-success" /><p>Add to Cart</p></a></Tooltip>,
-                    <><HeartTwoTone  twoToneColor="#eb2f96" key="heart" />Add to Wishlist</>,
+                    <a onClick={handleAddToWishlist}><HeartTwoTone  twoToneColor="#eb2f96" key="heart" /><p>Add to Wishlist</p></a>,
                     <RatingModal>
                         <StarRating
                             name={_id}
@@ -87,6 +97,7 @@ function SingleProduct({product, onStarClick, star}) {
             >
                 <ProductListItems product={product} />
             </Card>
+            <div className="text-center text-danger p-3"><a href="/user/wishlist"><i>Click here to go to your wishlist.</i></a></div>
             </div>
         </>
     )

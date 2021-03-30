@@ -55,6 +55,8 @@ function SideDrawer() {
                 payload: false
             })
             } className="btn btn-primary btn-raised">Go to Cart</a>
+            <p>or</p>
+            <a href="/user/wishlist" className="btn btn-raised btn-secondary">Wishlist</a>
         </Drawer>
     )
 }

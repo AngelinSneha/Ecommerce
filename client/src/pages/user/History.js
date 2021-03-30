@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import UserNav from "../../components/nav/UserNav";
 import { getUserorders } from "../../functions/user";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
-import {toast} from "react-toastify";
 import ShowPaymentInfo from "../../components/cards/ShowPaymentInfo";
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import Invoice from '../../components/order/Invoice';
 
 function History() {
     const [orders, setorders] = useState([])
@@ -27,7 +27,7 @@ function History() {
         <thead className="thead-dark">
         <tr>
         <th scope="col">Title</th>
-        <th scope="col">Price</th>
+        <th scope="col">Price (in INR)</th>
         <th scope="col">Brand</th>
         <th scope="col">Color</th>
         <th scope="col">Count</th>
@@ -51,23 +51,17 @@ function History() {
 
     const showDownloadLink = (order) => (
         <PDFDownloadLink document={
-            <Document>
-                <Page size="A4" >
-                    <View>
-
-                    </View>
-                </Page>
-            </Document>
+            <Invoice order={order} />
         } 
-        fileName="Invoice.pdf"
-        className="btn btn-sm btn-block btn-outline-dark">
-            Download PDF
+        fileName="ShopDeal_Invoice.pdf"
+        className="btn btn-sm btn-block btn-secondary">
+            Download your Invoice Here
         </PDFDownloadLink>
     )
 
     const showEachOrder = () => orders.map((order, i) => (
             <div key={i} className="m-5 p-3 card">
-                <ShowPaymentInfo order={order} />
+                <ShowPaymentInfo order={order} showStatus={true}/>
                 {showOrderInTable(order)}
                 <div className="row">
                     <div className="col">

@@ -194,7 +194,7 @@ function Cart({ history }) {
                             </table>
                     <hr />
                     {user? (
-                        <button disabled={!cart.length} onClick={saveOrderToDb} className="mb-4 btn btn-danger btn-raised btn-sm mt-2">
+                        <button disabled={cart.length<1} onClick={saveOrderToDb} className="mb-4 btn btn-danger btn-raised btn-sm mt-2">
                             <Link style={{'color':'white'}} to="/checkout">Proceed to Checkout</Link>
                         </button>
                     ):(

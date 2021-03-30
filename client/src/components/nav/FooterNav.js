@@ -1,13 +1,17 @@
 import React from 'react'
+import { Layout} from 'antd';
+const { Footer} = Layout;
 
 var d = new Date();
 var n = d.getFullYear();
-function Footer() {
+
+function FooterNav() {
     return (
         <div className="p-3 text-center mt-auto" style={{'backgroundColor':'#001529', 'color':'#fff'}}>
            © Copyright {n}. All Rights Reserved.
         </div>
+        // <Footer style={{ textAlign: 'center' }}>© Copyright {n}. All Rights Reserved.</Footer>
     )
 }
 
-export default Footer
+export default FooterNav
