@@ -56,7 +56,7 @@ function Header() {
             <Item icon={<LogoutOutlined />} onClick={logout}>Log out</Item>
         </SubMenu>
         )}
-        <span className="float-right p-1" >
+        <span className="float-right" >
             <Search />
         </span>
       </Menu>

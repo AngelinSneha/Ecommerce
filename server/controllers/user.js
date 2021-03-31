@@ -3,6 +3,7 @@ const Product = require("../models/product");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
+const uniqueid = require('uniqueid')
 
 exports.userCart = async (req, res) => {
     console.log(req.body);
@@ -158,5 +159,57 @@ exports.wishlist = async (req, res) => {
 exports.removeFromWishlist = async (req, res) => {
     const {productId} = req.params;
     const user = await User.findOneAndUpdate({email: req.user.email}, {$pull: {wishlist: productId}}).exec();
+    res.json({ ok: true })
+}
+
+exports.createcashOrder = async (req, res) => {
+    let {COD, couponApplied} = req.body;
+    if(!COD) {
+        return res.status(400).send("CREATE CASH ORDER FAILED")
+    }
+    const user = await User.findOne({ email: req.user.email }).exec();
+
+    let userCart = await Cart.findOne({ orderedBy: user._id })
+    .exec();
+
+    let finalAmount = 0;
+
+  if(couponApplied && userCart.totalAfterDiscount) {
+      console.log('yayy coupon applied');
+    finalAmount = userCart.totalAfterDiscount * 100;
+  } else {
+    console.log('not applied');
+    finalAmount = userCart.cartTotal * 100;
+  }
+
+    let newOrder = await new Order({
+        products:userCart.products,
+        paymentIntent: {
+            id: Math.floor(100000000000000000 + Math.random() * 900000000000000000 ),
+            "amount": finalAmount,
+            "created": Date.now(),
+            "currency": "inr",
+            "payment_method_types": [
+                "cash"
+            ],
+            "status": "Cash On Delivery"
+        },
+        orderedBy: user._id,
+        orderStatus: "Cash On Delivery"
+    }).save();
+
+    //decrease quantity
+    let bulkProduct = userCart.products.map((item) => {
+        return {
+            updateOne: {
+                filter: {_id: item.product._id},
+                update: {$inc: { quantity: -item.count, sold: +item.count }}
+            }
+        }
+    })
+    let updated = await Product.bulkWrite(bulkProduct, {});
+    console.log('PRODUCT QUANTITY DECREMENTED', updated);
+
+    console.log('NEW ORDER SAVED ---> ', newOrder);
     res.json({ ok: true })
 }

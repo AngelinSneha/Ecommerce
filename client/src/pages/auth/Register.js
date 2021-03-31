@@ -18,7 +18,7 @@ function Register({history}) {
             handleCodeInApp:true
         }
         await auth.sendSignInLinkToEmail(email, config)
-        toast.success(`Email is set to ${email}, Click the link in your mail to complete the registration.`);
+        toast.success(`Email is set to ${email}, Click the link sent to your mail to complete the registration.`);
         //local storage
         window.localStorage.setItem('emailForRegistration', email);
         setEmail("");
@@ -30,7 +30,7 @@ function Register({history}) {
                 <div className="row">
                 <div className="col-md-6 offset-md-3">
                     <h1>Register To Join Us!</h1>
-                    <i style={{color:"#ff4646"}}>10% OFF on all products for new Users*</i>
+                    <i style={{color:"#ff4646"}}>10% OFF on all products for new Users Only*</i>
                     <br />
                     <br />
                     <br />

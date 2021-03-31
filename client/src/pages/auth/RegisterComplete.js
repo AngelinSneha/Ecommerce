@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {auth} from "../../firebase";
 import {toast} from 'react-toastify';
-import { useDispatch} from "react-redux"
+import { useDispatch} from "react-redux";
+import { Input } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 // import { useSelector } from "react-redux";
 import {createOrUpdateUser} from "../../functions/auth";
 
@@ -71,8 +73,10 @@ function RegisterComplete({history}) {
                     <h1>Complete your Registration</h1>
                     <br />
                     <form onSubmit={handleSubmit}>
-                        <input disabled type="email" value={email} className="form-control m-3" />
-                        <input type="password" value={password} className="form-control m-3" onChange={(e) => setPassword(e.target.value)} autoFocus placeholder="Password" />
+                        {/* <input disabled type="email" value={email} className="form-control m-3" /> */}
+                        <Input disabled type="email" className="mb-3" size="large" value={email} prefix={<UserOutlined />} />
+                        {/* <input type="password" value={password} className="form-control m-3" onChange={(e) => setPassword(e.target.value)} autoFocus placeholder="Enter a new Password" /> */}
+                        <Input.Password type="password" value={password} size="large" className="mb-3" onChange={(e) => setPassword(e.target.value)} autoFocus placeholder="Enter a new Password" />
                         <br />
                         <button type="submit" className="float-right btn btn-primary btn-raised" >Complete Registeration</button>
                     </form>

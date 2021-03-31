@@ -19,9 +19,9 @@ const initialState = {
     quantity:'',
     images:[],
     colors: ['Green', 'Blue', 'Black', 'Brown', 'Red', 'white', 'purple', 'yellow'],
-    brands: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch'],
+    // brands: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch'],
     color:'',
-    brand:''
+    // brand:''
 }
 
 function ProductCreate() {

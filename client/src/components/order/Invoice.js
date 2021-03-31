@@ -77,7 +77,7 @@ function Invoice({order}) {
                         <TableCell style={{padding: "10px"}}>Title</TableCell>
                         <TableCell style={{padding: "10px"}}>Price</TableCell>
                         <TableCell style={{padding: "10px"}}>Quantity</TableCell>
-                        <TableCell style={{padding: "10px"}}>Brand</TableCell>
+                        {/* <TableCell style={{padding: "10px"}}>Brand</TableCell> */}
                         <TableCell style={{padding: "10px"}}>Color</TableCell>
                     </TableHeader>
                 </Table>
@@ -86,7 +86,7 @@ function Invoice({order}) {
                         <DataTableCell style={{padding: "10px"}} getContent={(x) => x.product.title} />
                         <DataTableCell style={{padding: "10px"}} getContent={(x) => `${x.product.price}`} />
                         <DataTableCell style={{padding: "10px"}} getContent={(x) => x.count} />
-                        <DataTableCell style={{padding: "10px"}} getContent={(x) => x.product.brand} />
+                        {/* <DataTableCell style={{padding: "10px"}} getContent={(x) => x.product.brand} /> */}
                         <DataTableCell style={{padding: "10px"}} getContent={(x) => x.product.color} />
                     </TableBody>
                 </Table>

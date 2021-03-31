@@ -12,6 +12,7 @@ import _ from "lodash";
 import { useDispatch, useSelector} from "react-redux";
 import { addToWishlist } from "../../functions/user";
 import { toast } from 'react-toastify';
+import { useHistory, useParams } from "react-router-dom";
 
 const {TabPane} = Tabs;
 
@@ -20,6 +21,8 @@ function SingleProduct({product, onStarClick, star}) {
     const [tooltip, settooltip] = useState('Click to Add to Cart');
     const {user, cart} = useSelector(state => ({...state}) );
     const dispatch = useDispatch();
+    let history = useHistory();
+    let { slug } = useParams();
     const handleAddToCart = () => {
         let cart = [];
         if(typeof window !== 'undefined') {
@@ -48,8 +51,23 @@ function SingleProduct({product, onStarClick, star}) {
         }
     }
 
+    const handleWishlist = () => {
+        if (!user) {
+            history.push({
+              pathname: "/login",
+              state: { from: `/product/${slug}` },
+            });
+        }
+    }
+
     const handleAddToWishlist = (e) => {
         e.preventDefault();
+        if (!user) {
+            history.push({
+              pathname: "/login",
+              state: { from: `/product/${slug}` },
+            });
+        }
         addToWishlist(product._id, user.token).then((res) => {
             console.log('ADDED TO WISHLIST', res.data);
             toast.success('Added to Wishlist')
@@ -82,7 +100,7 @@ function SingleProduct({product, onStarClick, star}) {
             <Card
                 actions={[
                     <Tooltip title={tooltip}><a onClick={handleAddToCart}><ShoppingCartOutlined className="text-success" /><p>Add to Cart</p></a></Tooltip>,
-                    <a onClick={handleAddToWishlist}><HeartTwoTone  twoToneColor="#eb2f96" key="heart" /><p>Add to Wishlist</p></a>,
+                    <div onClick={handleWishlist} ><a onClick={handleAddToWishlist}><HeartTwoTone  twoToneColor="#eb2f96" key="heart" /><p>{user ? "Add to wishlist" : "Login to add to wishlist"}</p></a></div>,
                     <RatingModal>
                         <StarRating
                             name={_id}
@@ -97,7 +115,7 @@ function SingleProduct({product, onStarClick, star}) {
             >
                 <ProductListItems product={product} />
             </Card>
-            <div className="text-center text-danger p-3"><a href="/user/wishlist"><i>Click here to go to your wishlist.</i></a></div>
+            {user && <div className="text-center p-3"><a href="/user/wishlist"><i className="text-danger ">Click here to go to your wishlist.</i></a></div>}
             </div>
         </>
     )

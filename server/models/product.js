@@ -53,10 +53,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         enum: ['Green', 'Blue', 'Black', 'Brown', 'Red', 'white', 'purple', 'yellow'],
     },
-    brand: {
-        type: String,
-        enum: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch']
-    },
+    // brand: {
+    //     type: String,
+    //     enum: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch']
+    // },
     ratings: [
         {
             star: Number,

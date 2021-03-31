@@ -50,7 +50,7 @@ function AllProducts() {
         <div className="container-fluid">
             <div className="row">
             <div>
-            <AdminNav name="dashboard"/>
+            <AdminNav name="productsList"/>
             </div>
                 <div className="col">
                 {loading? (<h2 className="text-danger"><LoadingOutlined /></h2>):(<h3 className="p-3" style={{color: '#1890ff'}} >All Products</h3>)}

@@ -55,23 +55,24 @@ exports.read = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    try {
-      if (req.body.title) {
-        req.body.slug = slugify(req.body.title);
-      }
-      const updated = await Product.findOneAndUpdate(
-        { slug: req.params.slug },
-        req.body,
-        { new: true }
-      ).exec();
-      res.json(updated);
-    } catch (err) {
-      console.log("PRODUCT UPDATE ERROR ----> ", err);
-      // return res.status(400).send("Product update failed");
-      res.status(400).json({
-        err: err.message,
-      });
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
     }
+    const updated = await Product.findOneAndUpdate(
+      { slug: req.params.slug },
+      req.body,
+      { new: true }
+    ).exec();
+    console.log('success controllers');
+    res.json(updated);
+  } catch (err) {
+    console.log("PRODUCT UPDATE ERROR ----> ", err);
+    // return res.status(400).send("Product update failed");
+    res.status(400).json({
+      err: err.message,
+    });
+  }
   };
 
 // without pagination
@@ -254,21 +255,21 @@ const handleSub = async (req, res, subs) => {
   }
 }
 
-const handleBrand = async (req, res, brand) => {
-  try {
-    let products = await Product.find({
-      brand
-    })
-    .populate("category", "_id name")
-    .populate("subs", "_id name")
-    .populate("postedBy", "_id name")
-    .exec();
-    res.json(products)
-  }
-  catch(err) {
-    console.log('Brand controller', err);
-  }
-} 
+// const handleBrand = async (req, res, brand) => {
+//   try {
+//     let products = await Product.find({
+//       brand
+//     })
+//     .populate("category", "_id name")
+//     .populate("subs", "_id name")
+//     .populate("postedBy", "_id name")
+//     .exec();
+//     res.json(products)
+//   }
+//   catch(err) {
+//     console.log('Brand controller', err);
+//   }
+// } 
 
 const handleColor = async (req, res, color) => {
   try {
@@ -330,7 +331,7 @@ const handleStar = async (req, res, stars) => {
 }
 
 exports.searchFilters = async (req, res) => {
-  const { query, price, category, stars, subs, brand, color, shipping } = req.body;
+  const { query, price, category, stars, subs, color, shipping } = req.body;
 
   if (query) {
     console.log("query ---->", query);
@@ -352,10 +353,10 @@ exports.searchFilters = async (req, res) => {
     console.log('stars ---->', subs);
     await handleSub(req, res, subs)
   }
-  if(brand !== undefined) {
-    console.log('brand ---->', brand);
-    await handleBrand(req, res, brand)
-  }
+  // if(brand !== undefined) {
+  //   console.log('brand ---->', brand);
+  //   await handleBrand(req, res, brand)
+  // }
   if(color !== undefined) {
     console.log('color ---->', color);
     await handleColor(req, res, color)

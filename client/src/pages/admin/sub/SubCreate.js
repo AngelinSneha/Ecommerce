@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import AdminNav from "../../../components/nav/AdminNav";
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
-import {  getCategories} from "../../../functions/category";
+import { getCategories} from "../../../functions/category";
 import { createSub, getSubs, removeSub } from "../../../functions/sub";
 import { EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";

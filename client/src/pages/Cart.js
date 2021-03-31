@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {useSelector, useDispatch} from 'react-redux';
+import { Divider } from 'antd';
 import laptop from "../images/laptop.jpg";
 import { Link } from "react-router-dom";
 import {toast} from 'react-toastify';
@@ -9,7 +10,7 @@ import {CloseCircleOutlined, DeleteOutlined, CheckCircleOutlined } from "@ant-de
 
 function Cart({ history }) {
     const [colors, setcolors] = useState(['Green', 'Blue', 'Black', 'Brown', 'Red', 'white', 'purple', 'yellow'])
-    const {user, cart} = useSelector(state => ({...state}));
+    const {user, cart, COD} = useSelector(state => ({...state}));
     const dispatch = useDispatch();
 
     const getTotal = () => {
@@ -27,10 +28,18 @@ function Cart({ history }) {
               .catch((err) => console.log("cart save err", err));
     };
 
-    // const handleQuantityChange = (e) => {
-    //     console.log('value ',e.target.value);
-        
-    // }
+    const saveCashOrderToDb = () => {
+        dispatch({
+            type: "COD",
+            payload: true
+        })
+        userCart(cart, user.token)
+              .then((res) => {
+                console.log("CART POST RES", res);
+                if (res.data.ok) history.push("/checkout");
+              })
+              .catch((err) => console.log("cart save err", err));       
+    }
     
     const handleRemove = (id) => {
         console.log("delete ---", id);
@@ -71,7 +80,7 @@ function Cart({ history }) {
                     <tr>
                     <th scope="col">Image</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Brand</th>
+                    {/* <th scope="col">Brand</th> */}
                     <th scope="col">Color</th>
                     <th scope="col">Count</th>
                     <th scope="col">Shipping</th>
@@ -87,7 +96,7 @@ function Cart({ history }) {
                             </div>
                         </td>
                         <td>{c.title}</td>
-                        <td>{c.brand}</td>
+                        {/* <td>{c.brand}</td> */}
                         <td>
                             <select name="color" id="" className="form-control" onChange={(e) => {
                                 console.log('Color change', e.target.value);
@@ -194,12 +203,18 @@ function Cart({ history }) {
                             </table>
                     <hr />
                     {user? (
+                        <div className="text-center" >
                         <button disabled={cart.length<1} onClick={saveOrderToDb} className="mb-4 btn btn-danger btn-raised btn-sm mt-2">
                             <Link style={{'color':'white'}} to="/checkout">Proceed to Checkout</Link>
                         </button>
+                        <Divider plain >or</Divider>
+                        <button disabled={cart.length<1} onClick={saveCashOrderToDb} className="mb-4 btn btn-primary btn-raised btn-sm mt-2">
+                            <Link style={{'color':'white'}} to="/checkout">Pay Cash On Delivery</Link>
+                        </button>
+                        </div>
                     ):(
-                        <button className="btn btn-danger btn-sm mt-2 mb-4">
-                            <Link to={{
+                        <button className="btn btn-danger btn-raised btn-sm mt-2 mb-4">
+                            <Link style={{color:"white"}} to={{
                                 pathname:"/login",
                                 state:{ from:"cart" }
                             }}>

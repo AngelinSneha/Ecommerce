@@ -5,7 +5,7 @@ const { Option } = Select;
 
 function Productform({handleChange, handleSubmit, values, handleCategoryChange, setValues, subOptions, showSub}) {
     const children = [];
-    const {title, description, price, categories, category, subs, shipping, quantity, images, color, colors, brands, brand} = values;
+    const {title, description, price, categories, category, subs, shipping, quantity, images, color, colors} = values;
     return (
         <form onSubmit={handleSubmit}>
                             <div className="form-group">
@@ -39,13 +39,13 @@ function Productform({handleChange, handleSubmit, values, handleCategoryChange, 
                                 {colors.map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
                             </div>
-                            <div className="form-group">
+                            {/* <div className="form-group">
                             <label><b>Brand</b></label>
                             <select name="brand" style={{width:'70%'}} className="form-control" onChange={handleChange}>
                                 <option>Please Select a value</option>  
                                 {brands.map(b => <option key={b} value={b}>{b}</option>)}
                             </select>
-                            </div>
+                            </div> */}
                             <div>
                             <label><b>Category</b></label>
                             <select name="category" onChange={handleCategoryChange} style={{color:'#001529', width:'70%'}} className="form-control" aria-label="category">

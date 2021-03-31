@@ -8,7 +8,6 @@ const ProductListItems = ({ product }) => {
     subs,
     shipping,
     color,
-    brand,
     quantity,
     sold,
   } = product;
@@ -63,12 +62,12 @@ const ProductListItems = ({ product }) => {
         </span>
       </li>
 
-      <li className="list-group-item">
+      {/* <li className="list-group-item">
         Brand{" "}
         <span className="label label-default label-pill pull-xs-right">
           {brand}
         </span>
-      </li>
+      </li> */}
 
       <li className="list-group-item">
         Available{" "}

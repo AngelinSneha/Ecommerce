@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { getUserCart, emptyCart, saveUserAddress, appliedCoupon } from "../functions/user";
+import { getUserCart, emptyCart, saveUserAddress, appliedCoupon,createCashOrderForUser  } from "../functions/user";
+import { getCoupons } from "../functions/coupon"
 import { Input,Tooltip } from 'antd';
 
 const { TextArea } = Input;
@@ -12,19 +13,34 @@ const Checkout = ({history}) => {
   const [address, setaddress] = useState("");
   const [addressSaved, setaddressSaved] = useState(false);
   const [coupon, setcoupon] = useState('');
+  const [coupons, setcoupons] = useState([])
   const [totAfterDiscount, settotAfterDiscount] = useState(0);
   const [discountError, setdiscountError] = useState('')
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, COD} = useSelector((state) => ({ ...state }));
+  const couponTrueOrFalse = useSelector((state) => state.coupon);
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
-      console.log("user cart res", JSON.stringify(res.data, null, 4));
+      // console.log("user cart res", JSON.stringify(res.data, null, 4));
       setProducts(res.data.products);
       setTotal(res.data.cartTotal);
     });
   }, []);
+
+  useEffect(() => {
+    loadAllCouponsForCart();
+  }, []);
+
+  const loadAllCouponsForCart = () => {
+    getCoupons().then((res) => {
+      setcoupons(res.data);
+      console.log(coupons);
+    }).catch((err) => {
+      console.log('get coupon error', err);
+    })
+  }
 
   const emptyCartValue = () => {
     if(typeof window !== 'undefined') {
@@ -50,7 +66,7 @@ const Checkout = ({history}) => {
     saveUserAddress(user.token, address).then((res) => {
       if(res.data.ok) {
         setaddressSaved(true)
-        toast.success('Address Saved')
+        toast.success('Your Address is Saved')
       }
     })
   }
@@ -79,14 +95,59 @@ const Checkout = ({history}) => {
 
   const applyCoupon = () => (
     <>
-      <Input className="form-control" value={coupon} placeholder="Enter the Coupon Code" type="text" onChange={(e) =>{
+      <select value={coupon} className="custom-select" onChange={(e) =>{
          setcoupon(e.target.value)
          setdiscountError("")
-         }} />
+         }}>
+          <option>Select a Coupon Code</option>
+          {coupons.map((c) => (
+            <option value={c.name}>{c.name}</option>
+          ))}
+      </select>
+      {/* <Input className="form-control" value={coupon} placeholder="Enter the Coupon Code" type="text" onChange={(e) =>{
+         setcoupon(e.target.value)
+         setdiscountError("")
+         }} /> */}
       <button onClick={applyDiscountCoupon} className="btn btn-dark btn-raised mt-3">Apply Coupon</button>
     </>
 
   )
+
+  const createCashOrder = () => {
+    createCashOrderForUser(user.token, COD, couponTrueOrFalse).then((res) => {
+      // console.log('coupon val: ----> ',couponTrueOrFalse)
+      console.log('user cash order created res', res);
+
+      if (res.data.ok) {
+        // empty local storage
+        if (typeof window !== "undefined") localStorage.removeItem("cart");
+        // empty redux cart
+        dispatch({
+          type: "ADD_TO_CART",
+          payload: [],
+        });
+        // empty redux coupon
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: false,
+        });
+        // empty redux COD
+        dispatch({
+          type: "COD",
+          payload: false,
+        });
+        // mepty cart from backend
+        emptyCart(user.token);
+
+        toast.success("Your Order has been Placed! Thank You for ordering with Us.🎉")
+        // redirect
+        setTimeout(() => {
+          history.push("/user/history");
+        }, 1000);
+      }
+    })
+  }
+
   return (
     <div className="row">
       <div className="col-md-6">
@@ -94,11 +155,12 @@ const Checkout = ({history}) => {
         <h4>Delivery Address</h4>
         <hr />
         <TextArea value={address} rows={4} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your Address" showCount maxLength={200} allowClear={true} />
+        <p className="text-danger "><i>Please enter your Address before placing an Order*</i></p>
         <button className="btn btn-dark btn-raised mt-2" onClick={saveAddressToDb}>
           Save
         </button>
         <hr />
-        <h4>Got Coupon?</h4>
+        <h4>We have got Offers for you!</h4>
         <br />
         {applyCoupon()}
         <br />
@@ -144,7 +206,8 @@ const Checkout = ({history}) => {
                     { totAfterDiscount>0?
                       (<>
                       <br />
-                      <i className="text-success h6 pl-2" >Hurray, Discount Applied!</i>
+                      <img style={{height:"5rem"}} src="https://cdn.dribbble.com/users/424937/screenshots/6660260/01-account-created-dribbble.gif" />
+                      <p><i className="text-success h6 pl-2" >Hurray, Discount Applied!</i></p>
                       <p className="text-success pl-2" ><i>Promo - ({coupon})</i></p>
                         <tr className="h5">
                         <th>Grand Total</th>
@@ -158,7 +221,7 @@ const Checkout = ({history}) => {
 
         <div className="row">
           <div className="col-md-6">
-            <button onClick={()=> history.push("/payment")} className="mb-4 ml-1 btn btn-raised btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>
+            {COD ? (<button onClick={createCashOrder} className="mb-4 ml-1 btn btn-raised btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>): (<button onClick={()=> history.push("/payment")} className="mb-4 ml-1 btn btn-raised btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>)}
           </div>
 
           <div className="col-md-6">

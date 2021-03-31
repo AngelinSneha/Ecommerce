@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react'
 import AdminNav from "../../../components/nav/AdminNav";
 import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
-import { getProduct } from "../../../functions/product";
+import { getProduct, updateProduct } from "../../../functions/product";
 import { getCategories, getCategorySubs } from "../../../functions/category";
 import Fileupload from '../../../components/forms/Fileupload'
 import {LoadingOutlined} from '@ant-design/icons';
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
-import { updateProduct } from "../../../functions/product";
+// import { updateProduct } from "../../../functions/product";
 const initialState = {
     title:'',
     description:'',
@@ -18,9 +18,9 @@ const initialState = {
     quantity:'',
     images:[],
     colors: ['Green', 'Blue', 'Black', 'Brown', 'Red', 'white', 'purple', 'yellow'],
-    brands: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch'],
+    // brands: ['Clothes', 'Earphones', 'Laptop', 'Mobile', 'TV', 'Watch'],
     color:'',
-    brand:''
+    // brand:''
 }
 function ProductUpdate({match, history}) {
     const [values, setValues] = useState(initialState);
@@ -30,7 +30,8 @@ function ProductUpdate({match, history}) {
     const [loading, setLoading] = useState(false);
     const [subOptions, setSubOptions] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("")
-    const [arrayOfSubIds, setArrayOfSubIds] = useState([])
+    const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
+
     useEffect(() => {
         loadProduct();
         loadCategories();
@@ -83,7 +84,7 @@ function ProductUpdate({match, history}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // setLoading(true);
+        setLoading(true);
 
         values.subs = arrayOfSubIds;
         values.category = selectedCategory ? selectedCategory : values.category;
@@ -91,6 +92,7 @@ function ProductUpdate({match, history}) {
         updateProduct(slug, values, user.token)
       .then((res) => {
         setLoading(false);
+        console.log(res);
         toast.success(`"${res.data.title}" is updated`);
         history.push("/admin/products");
       })

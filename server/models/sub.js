@@ -8,7 +8,7 @@ const subSchema = new mongoose.Schema({
         //to remove white spaces
         required:'Name is required',
         minlength:[1, 'Too short'],
-        maxlength:[32, 'Too long']
+        maxlength:[100, 'Too long']
     },
     slug: {
         type:String,
