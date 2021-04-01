@@ -17,7 +17,7 @@ function CarouselHome() {
                 <Link to={`/category/laptop`}><img src="https://images-eu.ssl-images-amazon.com/images/G/31/img19/CEPC/storage/2020/May/Desktop_Header_ClearanceStore.jpg" style={{'height': '15rem',  'width': '100%'}} /></Link>
                 </div>
                 <div>
-                <Link to={`/category/tv`}><img src="https://images-eu.ssl-images-amazon.com/images/G/31/img18/TV/SmartTV/PC/smart-tv_PC_5_image._CB482882344_.jpg" style={{'height': '15rem',  'width': '100%'}} /></Link>
+                <Link to={`/category/tv`}><img src="https://images-eu.ssl-images-amazon.com/images/G/31/img17/Wireless/Content/EEG/TVcat._CB1198675309_.jpg" style={{'height': '15rem',  'width': '100%'}} /></Link>
                 </div>
                 <div>
                 <Link to={`/category/clothes`}><img src="https://images-eu.ssl-images-amazon.com/images/G/31/img21/Fashion/Event/SS21Flip/Mens_Fashion/Top_Banner/V1/4pc_2.jpg" style={{'height': '15rem',  'width': '100%'}} /></Link>

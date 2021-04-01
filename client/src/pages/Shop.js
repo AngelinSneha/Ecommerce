@@ -3,13 +3,14 @@ import { fetchProductsByFilter, getProductsByCount } from "../functions/product"
 import { useSelector, useDispatch} from "react-redux";
 import {getCategories} from "../functions/category"
 import {getSubs} from "../functions/sub"
-import { LoadingOutlined, BgColorsOutlined, TransactionOutlined, DollarOutlined, StarOutlined, DownSquareOutlined } from '@ant-design/icons';
+import { BgColorsOutlined, TransactionOutlined, DollarOutlined, StarOutlined, DownSquareOutlined } from '@ant-design/icons';
 import ProductCard from '../components/cards/ProductCard';
 import { Checkbox } from 'antd';
 import { Radio } from 'antd';
 import { Menu, Slider } from 'antd';
 import Star from '../components/forms/Star';
-const {SubMenu, ItemGroup} = Menu;
+
+const { SubMenu } = Menu;
 
 function Shop() {
     const [products, setProducts] = useState([]);
@@ -61,10 +62,10 @@ function Shop() {
     useEffect(() => {
       const delayed = setTimeout(() => {
         fetchProducts({ query: text });
+        if(!text) {
+          loadAllProducts();
+        }
       }, 300);
-      if(!text) {
-        loadAllProducts();
-      }
       return () => clearTimeout(delayed);
     }, [text]);
   
@@ -183,7 +184,7 @@ function Shop() {
       ));
   
     const handleSub = (sub) => {
-      // console.log("SUB", sub);
+      console.log("SUB", sub);
       setSub(sub);
       dispatch({
         type: "SEARCH_QUERY",
@@ -230,6 +231,7 @@ function Shop() {
       const showColors = () =>
       colors.map((c) => (
         <Radio
+          key={c}
           value={c}
           name={c}
           checked={c === color}
@@ -295,10 +297,10 @@ function Shop() {
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-md-3">
+                <div className="col-md-3 mb-5">
                     <h4 className="mt-4 mb-4">Filter/Search</h4>
                     <hr />
-                    <Menu defaultOpenKeys={['1', '2', '3', '4', '5', '6', '7']} mode="inline">
+                    <Menu defaultOpenKeys={['1', '2', '3', '4', '5', '6', '7']} mode="inline" className="mb-5">
                         <SubMenu key="1" title={<span className="h6"><DollarOutlined /> Price</span>} >
                             <div>
                                 <Slider max="200000" className="mr-4 ml-4" tipFormatter={(v) => `₹ ${v}`} range value={price} onChange={handleSlider} />
