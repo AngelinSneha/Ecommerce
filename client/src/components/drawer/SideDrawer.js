@@ -5,7 +5,7 @@ import { Drawer, Button } from 'antd';
 import laptop from "../../images/laptop.jpg";
 
 function SideDrawer() {
-    const {drawer, cart} = useSelector(state => ({...state}));
+    const {drawer, cart, user} = useSelector(state => ({...state}));
     const dispatch = useDispatch();
     
     const getTotal = () => {
@@ -55,8 +55,10 @@ function SideDrawer() {
                 payload: false
             })
             } className="btn btn-primary btn-raised">Go to Cart</a>
+            {user && (<>
             <p>or</p>
             <a href="/user/wishlist" className="btn btn-raised btn-secondary">Wishlist</a>
+            </>)}
         </Drawer>
     )
 }

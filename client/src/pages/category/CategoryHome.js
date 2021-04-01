@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {getCategory} from "../../functions/category"
 import ProductCard from "../../components/cards/ProductCard";
 import {LoadingOutlined} from "@ant-design/icons"
+import ll from "../../images/ll.jpg"
 
 function CategoryHome({ match }) {
     const [category, setcategory] = useState({});
@@ -25,16 +26,19 @@ function CategoryHome({ match }) {
     }, [])
 
     return (
-        <div className="container">
+        <div className="container-fluid">
             <div className="row">
-                <div className="col">
+                <div className="col-xs-12">
+                    <h2 className="text-center m-4">{category.name}</h2>
+                    <img style={{'height': '15rem',  'width': '100%'}} src={ll} />
                     {loading? (<h4 className="text-center font-weight-bold p-4"><LoadingOutlined /></h4>): (
-                        <h4 className="text-center font-weight-bold p-4">{products.length} products available in the category of "{category.name}"</h4>
+                        <><p className="h5 pt-5 pl-4">{products.length} Products Available</p><hr />
+                        </>
                     )}
                 </div>
-                <div className="row">
+                <div className="row mb-5">
                     {products.map((p) => (
-                    <div className="col" key={p._id}>
+                    <div className="col-md-4 mb-3 mt-2" key={p._id}>
                         <ProductCard product={p} />
                     </div>
                     ))}

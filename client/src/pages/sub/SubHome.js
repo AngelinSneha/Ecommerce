@@ -27,15 +27,18 @@ function SubHome({ match }) {
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col">
+                <div className="col-xs-12">
+                <h2 className="text-center m-4">{sub.name}</h2>
+                    <img style={{'height': '15rem',  'width': '100%'}} src="https://images-eu.ssl-images-amazon.com/images/G/31/img19/CEPC/storage/2020/May/Desktop_Header_ClearanceStore.jpg" />
                     {loading? (<h4 className="text-center font-weight-bold p-4"><LoadingOutlined /></h4>): (
-                        <h4 className="text-center font-weight-bold p-4">{products.length} products available in the Sub-category of "{sub.name}"</h4>
+                        <><p className="h5 pt-5 pl-4">{products.length} Products Available</p><hr />
+                        </>
                     )}
                 </div>
             </div>
-                <div className="row">
+                <div className="row mb-5">
                     {products.map((p) => (
-                    <div className="col" key={p._id}>
+                    <div className="col-md-4 mb-4 mt-2" key={p._id}>
                         <ProductCard product={p} />
                     </div>
                     ))}

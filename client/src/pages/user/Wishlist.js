@@ -40,7 +40,7 @@ function Wishlist() {
                         <div key={p._id} className="pb-3">
                                 <Card hoverable={true} >
                                 <Link to={`/product/${p.slug}`}>
-                                <img className="p-1" style={{height:"5rem" ,objectFit:"cover"}} src={p.images && p.images.length? p.images[0].url : laptop} />
+                                <img className="p-1" style={{height:"5rem",width:"auto" ,objectFit:"cover"}} src={p.images && p.images.length? p.images[0].url : laptop} />
                                 <span style={{marginLeft:"2rem", color:"black"}} className="h5">{p.title} - Rs {p.price}</span>{"\n"}
                                 </Link>
                                 <span onClick={() => handleRemove(p._id)} className="float-right text-danger mt-4">Remove from Wishlist</span>

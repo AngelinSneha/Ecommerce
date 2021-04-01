@@ -28,7 +28,7 @@ function Header() {
     
     
     return (
-        <Menu theme="dark" className="p-1" onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+        <Menu style={{width:"100%"}} theme="dark" className="p-1" onClick={handleClick} selectedKeys={[current]} mode="horizontal">
         <Item key="home" icon={<HomeOutlined />}>
             <Link to="/">Home</Link>
         </Item>

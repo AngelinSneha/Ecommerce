@@ -28,6 +28,7 @@ exports.userCart = async (req, res) => {
         object.color = cart[i].color;
 
         let productFromDb = await Product.findById(cart[i]._id).select("price").exec();
+        console.log(productFromDb);
         object.price = productFromDb.price;
 
         products.push(object);

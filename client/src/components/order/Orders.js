@@ -1,6 +1,7 @@
 import React from 'react'
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import ShowPaymentInfo from '../cards/ShowPaymentInfo';
+import {Card} from "antd";
 
 function Orders({handleStatusChange, orders}) {
     const showOrderInTable = (order) => (
@@ -32,8 +33,8 @@ function Orders({handleStatusChange, orders}) {
     return (
         <>
             {orders.map((order) => (
-                <div key={order._id} className="row ml-2 mb-4 card">
-                 {/* <Card> */}
+                <div key={order._id} className="row ml-2 mb-5 card">
+                 <Card>
                  <ShowPaymentInfo order={order} showStatus={false}  />
                     {showOrderInTable(order)}
                     <div className='row'>
@@ -50,7 +51,7 @@ function Orders({handleStatusChange, orders}) {
                             </select>
                         </div>
                     </div>
-                 {/* </Card> */}
+                 </Card>
                  {/* </div> */}
                 </div>
             ))}

@@ -101,7 +101,7 @@ const StripeCheckout = ({ history }) => {
 
   return (
     <>
-    <h1 style={{color:"white"}} className={succeeded? 'result-message jumbotron bg-success':'result-message hidden'}>Thank You, for Shopping with Us. <p>Have a nice day!🙂</p><Link style={{color:"white"}} to="/shop"><u>Click here to Continue Shopping</u></Link></h1>
+    <h1 style={{color:"white"}} className={succeeded? 'result-message jumbotron bg-success':'result-message hidden'}>Thank You, for Shopping with Us. <p>Have a nice day!🎉</p><Link style={{color:"white"}} to="/shop"><u>Click here to Continue Shopping</u></Link></h1>
     {!succeeded && (
         <div>
           {coupon && totalAfterDiscount !== undefined ? (
@@ -126,7 +126,7 @@ const StripeCheckout = ({ history }) => {
           ]}
         />
       </div>
-      <form id="payment-form" className="stripe-form" onSubmit={handleSubmit}>
+      <form id="payment-form" className="stripe-form mb-5" onSubmit={handleSubmit}>
         <CardElement
           id="card-element"
           options={cartStyle}
@@ -143,7 +143,8 @@ const StripeCheckout = ({ history }) => {
         <br />
         {error && <div className="card-error text-danger" role="alert">{error}</div>}
         <br />
-        <p className={succeeded? 'result-message text-success':'result-message hidden'}>Payment Successful. <Link to="/user/history">See it in your purchase history.</Link> </p>
+        <p className={succeeded? 'result-message text-success':'result-message hidden'}>Payment Successful. <Link to="/user/history">See it in your purchase history.</Link> <img style={{height:"5rem"}} src="https://i.pinimg.com/originals/d2/61/4e/d2614e2f62dd59b9dfe66e63da15e5e7.gif" /></p>
+        
       </form>
       </>
   );

@@ -22,12 +22,16 @@ const Checkout = ({history}) => {
   const couponTrueOrFalse = useSelector((state) => state.coupon);
 
   useEffect(() => {
+    loadAllCartValues();
+  }, []);
+
+  const loadAllCartValues = () => {
     getUserCart(user.token).then((res) => {
       // console.log("user cart res", JSON.stringify(res.data, null, 4));
       setProducts(res.data.products);
       setTotal(res.data.cartTotal);
     });
-  }, []);
+  }
 
   useEffect(() => {
     loadAllCouponsForCart();
@@ -221,11 +225,11 @@ const Checkout = ({history}) => {
 
         <div className="row">
           <div className="col-md-6">
-            {COD ? (<button onClick={createCashOrder} className="mb-4 ml-1 btn btn-raised btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>): (<button onClick={()=> history.push("/payment")} className="mb-4 ml-1 btn btn-raised btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>)}
+            {COD ? (<button onClick={createCashOrder} className="mb-5 ml-1 btn btn-raised btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>): (<button onClick={()=> history.push("/payment")} className="mb-5 ml-1 btn btn-raised btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>)}
           </div>
 
-          <div className="col-md-6">
-            <button disabled={!products.length} onClick={emptyCartValue} className="mb-4 btn btn-raised btn-danger">Empty Cart</button>
+          <div className="col-md-6 mb-5">
+            <button disabled={!products.length} onClick={emptyCartValue} className="mb-5 btn btn-raised btn-danger">Empty Cart</button>
           </div>
         </div>
       </div>

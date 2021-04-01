@@ -68,7 +68,7 @@ function Cart({ history }) {
         <div className="pt-4 h3 font-weight-bold">Shopping Cart</div>
         {cart.length && cart.length>1 ?(<i>You have {cart.length} products in your Cart.</i>):(<i>You have {cart.length} product in your Cart.</i>)}
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-8 mb-5">
                 <hr />
                 {!cart.length ? (
                 <div className="text-center">
@@ -91,7 +91,7 @@ function Cart({ history }) {
                     {cart.map((c, i) => (
                         <tr key={i}>
                         <td>
-                            <div style={{'width':'100px', "height": "auto"}}>
+                            <div style={{'width':'5rem', "height": "auto"}}>
                                 {c.images.length? (<ModalImage hideDownload={true} showRotate={true} large={c.images[0].url} small={c.images[0].url} />):(<ModalImage showRotate={true} hideDownload={true} large={laptop} small={laptop} />)}
                             </div>
                         </td>
@@ -165,7 +165,7 @@ function Cart({ history }) {
                 </table>
                 )}
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 mb-4">
                     <div className="pt-4 h3">Order Summary</div>
                     <hr />
                     <table className="table">
@@ -204,16 +204,16 @@ function Cart({ history }) {
                     <hr />
                     {user? (
                         <div className="text-center" >
-                        <button disabled={cart.length<1} onClick={saveOrderToDb} className="mb-4 btn btn-danger btn-raised btn-sm mt-2">
+                        <button disabled={cart.length<1} onClick={saveOrderToDb} className="mb-3 btn btn-danger btn-raised btn-sm mt-2">
                             <Link style={{'color':'white'}} to="/checkout">Proceed to Checkout</Link>
                         </button>
                         <Divider plain >or</Divider>
-                        <button disabled={cart.length<1} onClick={saveCashOrderToDb} className="mb-4 btn btn-primary btn-raised btn-sm mt-2">
+                        <button disabled={cart.length<1} onClick={saveCashOrderToDb} className="mb-5 btn btn-primary btn-raised btn-sm mt-2">
                             <Link style={{'color':'white'}} to="/checkout">Pay Cash On Delivery</Link>
                         </button>
                         </div>
                     ):(
-                        <button className="btn btn-danger btn-raised btn-sm mt-2 mb-4">
+                        <button className="btn btn-danger btn-raised btn-sm mt-2 mb-5">
                             <Link style={{color:"white"}} to={{
                                 pathname:"/login",
                                 state:{ from:"cart" }
