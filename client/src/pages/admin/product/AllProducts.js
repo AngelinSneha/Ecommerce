@@ -52,12 +52,12 @@ function AllProducts() {
             <div>
             <AdminNav name="productsList"/>
             </div>
-                <div className="col">
+                <div className="col mb-5">
                 {loading? (<h2 className="text-danger"><LoadingOutlined /></h2>):(<h3 className="p-3" style={{color: '#1890ff'}} >All Products</h3>)}
                 <hr />
                    <div className="row">
                     {products.map((product)=> (
-                            <div key={product._id}  className="col-md-4 pb-3">
+                            <div key={product._id}  className="col-md-4 mb-3">
                                 <AdminProductCard product={product} handleRemove={handleRemove} />
                             </div>
                         ))}
