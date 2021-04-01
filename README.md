@@ -1,7 +1,9 @@
 # Ecommerce Website
 
-**_An Ecommerce Application to do Online Shopping!_**
+**_An Ecommerce Application to Shop Online!_**
+<br />
 _Admin can add products, categories, sub-categories or coupons._
+<br />
 _User can add products to his/her cart, apply coupons and order through card payment or Cash on delivery._
 
 ## Getting Started
