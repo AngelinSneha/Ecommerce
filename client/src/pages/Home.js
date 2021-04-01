@@ -11,7 +11,7 @@ function Home() {
     
     return (
         <div>
-            <div className="m-5 display-3 text-danger font-weight-bold text-center" style={{backgroundColor:'white'}}>
+            <div className="m-4 display-4 text-danger font-weight-bold text-center" style={{backgroundColor:'white'}}>
                 <Jumbotron text={['The Sale Has Just Started!', 'All Top Brands at Low Cost!', 'Just for You!']} />
             </div>
             <CarouselHome />
