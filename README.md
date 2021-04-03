@@ -14,7 +14,7 @@ _User can add products to his/her cart, apply coupons and order through card pay
 2. `$ npm start` - To start the frontend Server
 3. `$ nodemon server.js` - To start the backend Server
 
-- After building the app, frontend and backend servers will be merged into a single server and be available at http://localhost:3000
+- After building the app, frontend server will be available at http://localhost:3000
 
 <br />
 <img src="client/src/images/shopPage.png" height="400px" width="800px" />
