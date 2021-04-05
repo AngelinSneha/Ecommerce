@@ -9,8 +9,7 @@ _User can add products to his/her cart, apply coupons and order through card pay
 ## Getting Started
 
 ### Node
-- Enter your firebase credentials in firebase.js file
-
+- Enter your firebase credentials in firebase.js file (client/src/firebase.js).
 1. `$ npm install` - To install all the node modules
 2. `$ npm start` - To start the frontend Server
 3. `$ nodemon server.js` - To start the backend Server
