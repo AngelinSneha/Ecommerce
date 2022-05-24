@@ -33,10 +33,10 @@ function Header() {
             <Link to="/">Home</Link>
         </Item>
         <Item key="shop" icon={<ShoppingOutlined />}>
-            <Link to="/shop">Shop</Link>
+            <Link to="/shop">Services</Link>
         </Item>
         <Item key="cart" icon={<ShoppingCartOutlined />}>
-        <Link to="/cart"><Badge offset={[11,0]} count={cart.length}><span style={{'color':'rgba(255, 255, 255, 0.65)'}}>Cart</span></Badge></Link>
+        <Link to="/cart"><Badge offset={[11,0]} count={cart.length}><span style={{'color':'rgba(255, 255, 255, 0.65)'}}>Shortlists</span></Badge></Link>
         </Item>
         {!user && (
             <Item key="register" icon={<UserAddOutlined />} className="float-right">
